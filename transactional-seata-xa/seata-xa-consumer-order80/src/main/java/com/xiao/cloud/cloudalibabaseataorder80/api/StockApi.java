@@ -27,5 +27,6 @@ public interface StockApi {
     public CommonResult<PhoneStock> get(@PathVariable("id") Long id);
 
     @PostMapping("/update")
+    @Transactional(rollbackFor = Exception.class)
     public CommonResult<Boolean> update(@RequestBody PhoneStock phoneStock);
 }

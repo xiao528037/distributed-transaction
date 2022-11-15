@@ -3,6 +3,7 @@ package com.xiao.cloud.cloudalibabaseataprovidercommodity9001.cotroller;
 import com.xiao.cloud.cloudalibabaseataprovidercommodity9001.service.CommodityService;
 import com.xiao.cloud.cloudcommon.common.CommonResult;
 import com.xiao.cloud.cloudcommon.entity.CommodityDetails;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ public class CommodityController {
     private CommodityService commodityService;
 
     @GetMapping("/get/{id}")
+    @GlobalTransactional(rollbackFor = Exception.class)
     @Transactional(readOnly = true)
     public CommonResult<CommodityDetails> get(@PathVariable("id") Long id) {
         CommodityDetails com = commodityService.getById(id);

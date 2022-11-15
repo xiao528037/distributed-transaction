@@ -20,8 +20,7 @@ public class CommonResult<T> implements Serializable {
 
     private T data;
 
-    public CommonResult() {
-    }
+
 
     public CommonResult(Long code, String message, T data) {
         this.code = code;

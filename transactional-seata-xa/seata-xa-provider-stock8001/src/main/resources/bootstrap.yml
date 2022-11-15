@@ -1,0 +1,17 @@
+server:
+  port: 8001
+
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: 4ab8c1bb-28a2-46cc-9043-e269cf2afbf6
+        group: stock-config
+        file-extension: yaml
+        prefix: stock-server
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto

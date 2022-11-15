@@ -1,0 +1,21 @@
+server:
+  port: 80
+
+spring:
+  cloud:
+#    # 启动负载均衡
+#    loadbalancer:
+#      nacos:
+#        enabled: true
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: 4ab8c1bb-28a2-46cc-9043-e269cf2afbf6
+        group: order-config
+        prefix: order-server
+        file-extension: yaml
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto

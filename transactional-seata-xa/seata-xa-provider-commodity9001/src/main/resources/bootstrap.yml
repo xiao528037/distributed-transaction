@@ -1,0 +1,20 @@
+server:
+  port: 9001
+
+spring:
+  cloud:
+    loadbalancer:
+      nacos:
+        enabled: true
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: 4ab8c1bb-28a2-46cc-9043-e269cf2afbf6
+        group: commodity-config
+        file-extension: yaml
+        prefix: commodity-server
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto

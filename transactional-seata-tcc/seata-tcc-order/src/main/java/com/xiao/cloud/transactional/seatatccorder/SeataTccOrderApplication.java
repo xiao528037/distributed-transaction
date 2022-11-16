@@ -10,11 +10,9 @@ import org.springframework.context.annotation.ComponentScans;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-@ComponentScan(basePackages = {"com.xiao.cloud.cloudcommon","com.xiao.cloud.transactional.seatatccorder"})
+@ComponentScan(basePackages = {"com.xiao.cloud.*"})
 public class SeataTccOrderApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(SeataTccOrderApplication.class, args);
     }
-
 }

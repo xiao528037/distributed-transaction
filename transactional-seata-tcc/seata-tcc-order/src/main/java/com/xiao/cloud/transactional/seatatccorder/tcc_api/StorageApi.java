@@ -18,35 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface StorageApi {
 
     /**
-     * 添加库存商品信息
-     *
-     * @param tccStorage
-     *         库存商品
-     * @return 返回库存信息
-     */
-    @PostMapping("/addStorage")
-    CommonResult<TccStorage> addStorage(TccStorage tccStorage);
-
-    /**
-     * 减少库存
-     *
-     * @param storageId
-     *         库存商品ID
-     * @param storageCount
-     *         扣除数量
-     * @return 扣除后的数据
-     */
-    @PostMapping("/decreaseStorage")
-    CommonResult<TccStorage> decreaseStorage(@RequestParam(value = "storageId", required = true) Long storageId,
-                                             @RequestParam(value = "storageCount", required = true) Long storageCount);
-
-    /**
-     * 获取库存信息
+     * 扣减库存
      *
      * @param storageId
      *         库存ID
-     * @return 返回库存信息
+     * @param decreaseCount
+     *         扣减数量
+     * @return 扣减后的信息
      */
-    @GetMapping("/getStorageById/{id}")
-    CommonResult<TccStorage> getStorageById(@PathVariable("id") Long storageId);
+    @PostMapping("/decrease")
+    CommonResult<TccStorage> decreaseStorage(@RequestParam(value = "storageId", required = true) Long storageId,
+                                        @RequestParam(value = "decreaseCount", required = true) Long decreaseCount);
 }

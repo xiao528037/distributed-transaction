@@ -25,57 +25,12 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    /**
-     * 添加账号信息
-     *
-     * @param tccAccount
-     *         账号信息
-     * @return 返回账号信息
-     */
-    @PostMapping("/add")
-    @Transactional(rollbackFor = Exception.class)
-    public CommonResult<TccAccount> addAccount(TccAccount tccAccount) {
-        boolean save = accountService.save(tccAccount);
-        if (!save) {
-            return new CommonResult<>(0x00001L, "处理失败", tccAccount);
-        }
-        return new CommonResult<>(0x00001L, "处理成功", tccAccount);
-    }
-
-    /**
-     * 扣除账号余额
-     *
-     * @param accountId
-     *         账号ID
-     * @param over
-     *         扣除的余额
-     * @return 扣除成功返回
-     */
-    @PostMapping("/update")
-    @Transactional(rollbackFor = Exception.class)
-    public CommonResult<TccAccount> decreaseAccountOver(@RequestParam(required = true) Long accountId, @RequestParam(required = true) BigDecimal over) {
-        //获取当前账号余额
-        TccAccount oldAccount = accountService.getById(accountId);
-        BigDecimal subtract = oldAccount.getUserOver().subtract(over);
-        int i = subtract.compareTo(new BigDecimal(0));
-        Assert.isTrue(i != -1, "账号余额不足");
-        TccAccount tccAccount = new TccAccount();
-        tccAccount.setId(accountId);
-        tccAccount.setUserOver(subtract);
-        accountService.updateById(tccAccount);
-        return new CommonResult<>(0x00001L, "处理成功", tccAccount);
-    }
-
-    /**
-     * 通过账号ID获取信息
-     *
-     * @param accountId
-     *         账号ID
-     * @return 账号信息
-     */
-    @GetMapping("/get/{accountId}")
-    @Transactional(readOnly = true)
-    public CommonResult<TccAccount> getAccount(@PathVariable("accountId") Long accountId) {
-        return new CommonResult<>(0x00001L, "处理成功", accountService.getById(accountId));
+    @PostMapping("/deduction")
+    public CommonResult<TccAccount> deductionAmount(@RequestParam(value = "accountId", required = true) Long accountId,
+                                                    @RequestParam(value = "deductionAmount", required = true) BigDecimal deductionAmount) {
+        TccAccount account = accountService.deductionAmount(accountId, deductionAmount);
+        //模拟业务异常
+//        int i = 1 / 0;
+        return new CommonResult<>(0x00001L, "余额扣减成功", account);
     }
 }

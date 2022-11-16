@@ -10,9 +10,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>seata-tcc-tccAccount</module>
+        <module>seata-tcc-account</module>
         <module>seata-tcc-storage</module>
-        <module>seata-tcc-tccOrder</module>
+        <module>seata-tcc-order</module>
     </modules>
     <properties>
         <java.version>11</java.version>

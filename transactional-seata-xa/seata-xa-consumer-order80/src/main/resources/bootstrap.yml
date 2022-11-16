@@ -4,9 +4,9 @@ server:
 spring:
   cloud:
 #    # 启动负载均衡
-#    loadbalancer:
-#      nacos:
-#        enabled: true
+    loadbalancer:
+      nacos:
+        enabled: true
     nacos:
       config:
         server-addr: localhost:8848

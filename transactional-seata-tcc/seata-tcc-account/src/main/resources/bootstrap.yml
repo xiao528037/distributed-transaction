@@ -11,3 +11,6 @@ spring:
         group: tcc-group
         prefix: account-config
         file-extension: yaml
+logging:
+  level:
+    com.baomidou: debug

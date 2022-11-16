@@ -13,3 +13,7 @@ spring:
         group: tcc-group
         file-extension: yaml
         prefix: order-config
+
+logging:
+  level:
+    com.baomidou: debug

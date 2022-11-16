@@ -2,6 +2,7 @@ package com.xiao.cloud.cloudcommon.common;
 
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @description
  */
 @Data
+@NoArgsConstructor
 public class CommonResult<T> implements Serializable {
 
     private Long code;
@@ -19,7 +21,6 @@ public class CommonResult<T> implements Serializable {
     private String message;
 
     private T data;
-
 
 
     public CommonResult(Long code, String message, T data) {

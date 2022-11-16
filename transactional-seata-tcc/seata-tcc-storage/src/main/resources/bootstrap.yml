@@ -1,0 +1,14 @@
+server:
+  port: 8890
+
+spring:
+  application:
+    name: tcc-storage-service
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: b9edc6e3-94a0-4296-8fa0-35918460c291
+        group: tcc-group
+        file-extension: yaml
+        prefix: storage-config

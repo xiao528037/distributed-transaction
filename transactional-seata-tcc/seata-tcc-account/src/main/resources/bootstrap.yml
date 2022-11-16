@@ -1,0 +1,13 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: tcc-account-service
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: b9edc6e3-94a0-4296-8fa0-35918460c291
+        group: tcc-group
+        prefix: account-config
+        file-extension: yaml

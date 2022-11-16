@@ -1,0 +1,15 @@
+server:
+  port: 8889
+
+spring:
+  application:
+    name: tcc-order-service
+  cloud:
+    # 指定配置中心的配置文件
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: b9edc6e3-94a0-4296-8fa0-35918460c291
+        group: tcc-group
+        file-extension: yaml
+        prefix: order-config

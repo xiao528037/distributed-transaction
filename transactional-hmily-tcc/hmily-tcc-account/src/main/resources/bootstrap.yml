@@ -1,0 +1,17 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: hmily-tcc-account-service
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: f9556696-006b-4efe-9cce-a70da0d00ebc
+        group: hmily-tcc-group
+        prefix: account-config
+        file-extension: yaml
+logging:
+  level:
+    com.baomidou: debug
+

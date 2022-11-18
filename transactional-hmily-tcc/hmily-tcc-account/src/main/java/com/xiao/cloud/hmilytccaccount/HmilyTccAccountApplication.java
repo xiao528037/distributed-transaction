@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * @author aloneman
  */
-@SpringBootApplication
 @EnableFeignClients
+@SpringBootApplication
 @EnableDiscoveryClient
 @EnableTransactionManagement
 public class HmilyTccAccountApplication {

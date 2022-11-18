@@ -24,7 +24,7 @@ public interface AccountService extends IService<HmilyTccAccount> {
      */
     @Transactional(rollbackFor = Exception.class)
     @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
-    public HmilyTccAccount deductionBalance(Long accountId, Long mount);
+    HmilyTccAccount deductionBalance(Long accountId, Long mount);
 
     /**
      * 余额扣减提交
@@ -33,7 +33,7 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param mount
      * @return
      */
-    public HmilyTccAccount commit(Long accountId, Long mount);
+    HmilyTccAccount commit(Long accountId, Long mount);
 
     /**
      * 余额扣减回滚
@@ -42,5 +42,5 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param mount
      * @return
      */
-    public HmilyTccAccount rollback(Long accountId, Long mount);
+    HmilyTccAccount rollback(Long accountId, Long mount);
 }

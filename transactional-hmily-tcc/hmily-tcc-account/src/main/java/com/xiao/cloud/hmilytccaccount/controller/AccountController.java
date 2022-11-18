@@ -5,10 +5,7 @@ import com.xiao.cloud.cloudcommon.entity.HmilyTccAccount;
 import com.xiao.cloud.hmilytccaccount.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author aloneMan
@@ -29,15 +26,15 @@ public class AccountController {
 
 
     @PostMapping("/deduction")
-    public CommonResult<HmilyTccAccount> deduction(Long accountId, Long mount) {
+    public CommonResult<HmilyTccAccount> deduction(@RequestParam("accountId") Long accountId,@RequestParam("mount") Long mount) {
         HmilyTccAccount account = accountService.deductionBalance(accountId, mount);
         return new CommonResult<>(0x00001L, "处理成功", account);
     }
 
     @GetMapping("/get/{accountId}")
-    public CommonResult<HmilyTccAccount> getAccount(Long accountId) {
+    public CommonResult<HmilyTccAccount> getAccount(@PathVariable("accountId") Long accountId) {
         HmilyTccAccount account = accountService.getById(accountId);
-        Assert.notNull(account, "未查询到库存信息");
+        Assert.notNull(account, "未查询到用户信息");
         return new CommonResult<>(0x00001L, "处理成功", account);
     }
 }

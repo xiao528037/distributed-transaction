@@ -2,7 +2,7 @@ server:
   port: 8889
 spring:
   application:
-    name: hmily-tcc-account-service
+    name: hmily-tcc-inventory-service
   cloud:
     nacos:
       config:

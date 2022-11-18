@@ -1,6 +1,7 @@
 package com.xiao.cloud.hmilytccorder.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiao.cloud.cloudcommon.entity.HmilyTccAccount;
 import com.xiao.cloud.cloudcommon.entity.HmilyTccOrder;
 import org.dromara.hmily.annotation.HmilyTCC;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +20,8 @@ public interface OrderService extends IService<HmilyTccOrder> {
      * @param hmilyTccOrder
      * @return 订单信息
      */
-    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     @Transactional(rollbackFor = Exception.class)
+    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     HmilyTccOrder addOrder(HmilyTccOrder hmilyTccOrder);
 
     /**

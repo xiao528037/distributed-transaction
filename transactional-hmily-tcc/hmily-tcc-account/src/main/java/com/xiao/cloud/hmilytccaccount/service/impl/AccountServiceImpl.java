@@ -10,6 +10,7 @@ import org.dromara.hmily.core.context.HmilyContext;
 import org.dromara.hmily.core.context.HmilyContextHolder;
 import org.dromara.hmily.core.context.HmilyTransactionContext;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 
@@ -34,6 +35,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
         Long transId = HmilyContextHolder.get().getTransId();
         log.info("事务ID >>>>>>>>>>>>>>>> {} ", transId);
         HmilyTccAccount account = this.getById(accountId);
+        Assert.notNull(account, "未查询到用户信息");
         if (account.getBalance() >= mount) {
             account.setFreezeAmount(mount);
             this.saveOrUpdate(account);

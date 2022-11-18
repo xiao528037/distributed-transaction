@@ -19,7 +19,7 @@ public interface OrderService extends IService<HmilyTccOrder> {
      * @param hmilyTccOrder
      * @return 订单信息
      */
-    @HmilyTCC(confirmMethod = "", cancelMethod = "")
+    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     @Transactional(rollbackFor = Exception.class)
     HmilyTccOrder addOrder(HmilyTccOrder hmilyTccOrder);
 

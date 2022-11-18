@@ -22,12 +22,12 @@ public interface InventoryService extends IService<HmilyTccInventory> {
      *         扣除数量
      * @return 返回扣减后的数量
      */
-    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     @Transactional(rollbackFor = Exception.class)
+    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     HmilyTccInventory deductionInventory(Long inventoryId, Integer deductionCount);
 
     /**
-     * 扣除
+     * 扣除库存提交
      *
      * @param inventoryId
      *         库存商品ID
@@ -38,7 +38,7 @@ public interface InventoryService extends IService<HmilyTccInventory> {
     HmilyTccInventory commit(Long inventoryId, Integer deductionCount);
 
     /**
-     * 扣除
+     * 扣除库存回滚
      *
      * @param inventoryId
      *         库存商品ID

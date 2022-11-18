@@ -2,6 +2,7 @@ package com.xiao.cloud.hmilytccaccount.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiao.cloud.cloudcommon.entity.HmilyTccAccount;
+import org.dromara.hmily.annotation.HmilyTCC;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -15,14 +16,19 @@ import java.math.BigDecimal;
 public interface AccountService extends IService<HmilyTccAccount> {
 
     /**
+     * 余额扣减
+     *
      * @param accountId
      * @param mount
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
+    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     public HmilyTccAccount deductionBalance(Long accountId, Long mount);
 
     /**
+     * 余额扣减提交
+     *
      * @param accountId
      * @param mount
      * @return
@@ -30,6 +36,8 @@ public interface AccountService extends IService<HmilyTccAccount> {
     public HmilyTccAccount commit(Long accountId, Long mount);
 
     /**
+     * 余额扣减回滚
+     *
      * @param accountId
      * @param mount
      * @return

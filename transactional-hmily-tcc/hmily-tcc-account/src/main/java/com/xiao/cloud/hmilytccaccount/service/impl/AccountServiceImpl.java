@@ -30,7 +30,6 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
     }
 
     @Override
-    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     public HmilyTccAccount deductionBalance(Long accountId, Long mount) {
         Long transId = HmilyContextHolder.get().getTransId();
         log.info("事务ID >>>>>>>>>>>>>>>> {} ", transId);

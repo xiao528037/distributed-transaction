@@ -21,7 +21,7 @@ public interface InventoryApi {
     /**
      * 扣减库存
      *
-     * @param inventoryId
+     * @param productId
      *         库存ID
      * @param deductionCount
      *         扣减数量
@@ -29,7 +29,7 @@ public interface InventoryApi {
      */
     @Hmily
     @PostMapping("/deduction")
-    CommonResult<HmilyTccInventory> deductionInventory(@RequestParam("inventoryId") Long inventoryId,
+    CommonResult<HmilyTccInventory> deductionInventory(@RequestParam("productId") String productId,
                                                        @RequestParam("deductionCount") Integer deductionCount);
 
     /**

@@ -1,5 +1,6 @@
 package com.xiao.cloud.hmilytccaccount.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiao.cloud.cloudcommon.entity.HmilyTccAccount;
 import com.xiao.cloud.hmilytccaccount.mapper.AccountMapper;
@@ -31,30 +32,34 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
     }
 
     @Override
-    public HmilyTccAccount deductionBalance(Long accountId, Long mount) {
+    public HmilyTccAccount deductionBalance(String userId, BigDecimal deductionAmount) {
         Long transId = HmilyContextHolder.get().getTransId();
         log.info("事务ID >>>>>>>>>>>>>>>> {} ", transId);
-        HmilyTccAccount account = this.getById(accountId);
+        QueryWrapper<HmilyTccAccount> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(HmilyTccAccount::getUserId, userId);
+        HmilyTccAccount account = this.getOne(wrapper);
         Assert.notNull(account, "未查询到用户信息");
-        if (account.getBalance() >= mount) {
-            account.setFreezeAmount(mount);
+        if (account.getBalance().compareTo(deductionAmount) != -1) {
+            account.setFreezeAmount(deductionAmount);
             this.saveOrUpdate(account);
             //模拟扣除失败
-            int i = 1 / 0;
+            //int i = 1 / 0;
         } else {
             throw new RuntimeException(account.getUserId() + "账户余额不足");
         }
-        return null;
+        return account;
     }
 
     @Override
-    public HmilyTccAccount commit(Long accountId, Long mount) {
+    public HmilyTccAccount commit(String userId, BigDecimal deductionAmount) {
         Long transId = HmilyContextHolder.get().getTransId();
         log.info("提交 事务ID >>>>>>>>>>>>>>>> {} ", transId);
-        HmilyTccAccount account = this.getById(accountId);
+        QueryWrapper<HmilyTccAccount> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(HmilyTccAccount::getUserId, userId);
+        HmilyTccAccount account = this.getOne(wrapper);
         if (account != null) {
-            account.setBalance(account.getBalance() - mount);
-            account.setFreezeAmount(account.getFreezeAmount() - mount);
+            account.setBalance(account.getBalance().subtract(deductionAmount));
+            account.setFreezeAmount(account.getFreezeAmount().subtract(deductionAmount));
             this.saveOrUpdate(account);
             return account;
         }
@@ -62,12 +67,14 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
     }
 
     @Override
-    public HmilyTccAccount rollback(Long accountId, Long mount) {
+    public HmilyTccAccount rollback(String userId, BigDecimal mount) {
         Long transId = HmilyContextHolder.get().getTransId();
         log.info("回滚 事务ID >>>>>>>>>>>>>>>> {} ", transId);
-        HmilyTccAccount account = this.getById(accountId);
+        QueryWrapper<HmilyTccAccount> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(HmilyTccAccount::getUserId, userId);
+        HmilyTccAccount account = this.getOne(wrapper);
         if (account != null) {
-            account.setFreezeAmount(0L);
+            account.setFreezeAmount(new BigDecimal(0));
             this.saveOrUpdate(account);
             return account;
         }

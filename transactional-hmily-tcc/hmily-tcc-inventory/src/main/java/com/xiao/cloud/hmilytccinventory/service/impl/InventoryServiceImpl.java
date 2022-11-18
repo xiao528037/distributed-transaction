@@ -1,5 +1,6 @@
 package com.xiao.cloud.hmilytccinventory.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiao.cloud.cloudcommon.entity.HmilyTccInventory;
 import com.xiao.cloud.hmilytccinventory.mapper.InventoryMapper;
@@ -26,23 +27,27 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, HmilyTccI
     }
 
     @Override
-    public HmilyTccInventory deductionInventory(Long inventoryId, Integer deductionCount) {
+    public HmilyTccInventory deductionInventory(String productId, Integer deductionCount) {
         log.info(">>> Inventory模块,预留资源方法  全局事务ID  >>>  {} ", HmilyContextHolder.get().getTransId());
-        HmilyTccInventory inventory = this.getById(inventoryId);
+        QueryWrapper<HmilyTccInventory> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(HmilyTccInventory::getProductId,productId);
+        HmilyTccInventory inventory = this.getOne(wrapper);
         Assert.notNull(inventory, "未查询到库存信息");
         if (inventory.getTotalInventory() >= deductionCount) {
             inventory.setLockInventory(deductionCount);
             this.saveOrUpdate(inventory);
         } else {
-            throw new RuntimeException(inventoryId + "库存数量不足");
+            throw new RuntimeException(productId + "库存数量不足");
         }
         return inventory;
     }
 
     @Override
-    public HmilyTccInventory commit(Long inventoryId, Integer deductionCount) {
+    public HmilyTccInventory commit(String productId, Integer deductionCount) {
         log.info(">>> Inventory模块,提交方法  全局事务ID  >>>  {} ", HmilyContextHolder.get().getTransId());
-        HmilyTccInventory inventory = this.getById(inventoryId);
+        QueryWrapper<HmilyTccInventory> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(HmilyTccInventory::getProductId,productId);
+        HmilyTccInventory inventory = this.getOne(wrapper);
         inventory.setTotalInventory(inventory.getTotalInventory() - inventory.getLockInventory());
         inventory.setLockInventory(0);
         this.saveOrUpdate(inventory);
@@ -50,9 +55,11 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, HmilyTccI
     }
 
     @Override
-    public HmilyTccInventory rollback(Long inventoryId, Integer deductionCount) {
+    public HmilyTccInventory rollback(String productId, Integer deductionCount) {
         log.info(">>> Inventory模块,回滚方法  全局事务ID  >>>  {} ", HmilyContextHolder.get().getTransId());
-        HmilyTccInventory inventory = this.getById(inventoryId);
+        QueryWrapper<HmilyTccInventory> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(HmilyTccInventory::getProductId,productId);
+        HmilyTccInventory inventory = this.getOne(wrapper);
         inventory.setLockInventory(0);
         this.saveOrUpdate(inventory);
         return inventory;

@@ -24,9 +24,9 @@ public class InventoryController {
     }
 
     @PostMapping("/deduction")
-    public CommonResult<HmilyTccInventory> deductionInventory(@RequestParam("inventoryId") Long inventoryId,
+    public CommonResult<HmilyTccInventory> deductionInventory(@RequestParam("productId") String productId,
                                                               @RequestParam("deductionCount") Integer deductionCount) {
-        HmilyTccInventory inventory = inventoryService.deductionInventory(inventoryId, deductionCount);
+        HmilyTccInventory inventory = inventoryService.deductionInventory(productId, deductionCount);
         return new CommonResult<>(0x00001L, "库存扣减成功", inventory);
     }
 

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
+
 /**
  * @author aloneMan
  * @projectName distributed-transaction
@@ -23,13 +25,13 @@ public interface AccountApi {
      *
      * @param accountId
      *         用户ID
-     * @param mount
+     * @param deductionAmount
      *         扣减余额
      * @return 扣减信息
      */
     @Hmily
     @PostMapping("/deduction")
-    CommonResult<HmilyTccAccount> deduction(@RequestParam("accountId") Long accountId, @RequestParam("mount") Long mount);
+    CommonResult<HmilyTccAccount> deduction(@RequestParam("accountId") String accountId, @RequestParam("mount") BigDecimal deductionAmount);
 
     /**
      * 用户信息

@@ -18,29 +18,29 @@ public interface AccountService extends IService<HmilyTccAccount> {
     /**
      * 余额扣减
      *
-     * @param accountId
-     * @param mount
+     * @param userId
+     * @param deductionAmount
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
     @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
-    HmilyTccAccount deductionBalance(Long accountId, Long mount);
+    HmilyTccAccount deductionBalance(String userId, BigDecimal deductionAmount);
 
     /**
      * 余额扣减提交
      *
-     * @param accountId
-     * @param mount
+     * @param userId
+     * @param deductionAmount
      * @return
      */
-    HmilyTccAccount commit(Long accountId, Long mount);
+    HmilyTccAccount commit(String userId, BigDecimal deductionAmount);
 
     /**
      * 余额扣减回滚
      *
-     * @param accountId
-     * @param mount
+     * @param userId
+     * @param deductionAmount
      * @return
      */
-    HmilyTccAccount rollback(Long accountId, Long mount);
+    HmilyTccAccount rollback(String userId, BigDecimal deductionAmount);
 }

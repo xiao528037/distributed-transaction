@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 /**
  * @author aloneMan
  * @projectName distributed-transaction
@@ -27,8 +29,8 @@ public class AccountController {
 
 
     @PostMapping("/deduction")
-    public CommonResult<HmilyTccAccount> deduction(@RequestParam("accountId") Long accountId,@RequestParam("mount") Long mount) {
-        HmilyTccAccount account = accountService.deductionBalance(accountId, mount);
+    public CommonResult<HmilyTccAccount> deduction(@RequestParam("accountId") String accountId,@RequestParam("mount") BigDecimal deductionAmount) {
+        HmilyTccAccount account = accountService.deductionBalance(accountId, deductionAmount);
         return new CommonResult<>(0x00001L, "处理成功", account);
     }
 

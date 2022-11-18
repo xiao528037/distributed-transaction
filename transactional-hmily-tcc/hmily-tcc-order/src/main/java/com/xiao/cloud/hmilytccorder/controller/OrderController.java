@@ -7,6 +7,7 @@ import com.xiao.cloud.cloudcommon.entity.HmilyTccOrder;
 import com.xiao.cloud.hmilytccorder.openapi.AccountApi;
 import com.xiao.cloud.hmilytccorder.openapi.InventoryApi;
 import com.xiao.cloud.hmilytccorder.service.OrderService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,14 +22,9 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    private final AccountApi accountApi;
-
-    private final InventoryApi inventoryApi;
-
-    public OrderController(OrderService orderService, AccountApi accountApi, InventoryApi inventoryApi) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
-        this.accountApi = accountApi;
-        this.inventoryApi = inventoryApi;
+
     }
 
     @PostMapping("/createOrder")
@@ -37,23 +33,21 @@ public class OrderController {
         return new CommonResult<>(0x00001L, "订单生成成功", order);
     }
 
-    @GetMapping("/getOrder")
-    public CommonResult<HmilyTccOrder> getOrder(Long orderId) {
+    @GetMapping("/getOrder/{orderId}")
+    public CommonResult<HmilyTccOrder> getOrder(@PathVariable("orderId") Long orderId) {
         HmilyTccOrder tccOrder = orderService.getById(orderId);
-        return new CommonResult<>(0x00001L, "订单生成成功", tccOrder);
+        return new CommonResult<>(0x00001L, "查询订单信息", tccOrder);
     }
 
     @GetMapping("/getAccount/{userId}")
     public CommonResult<HmilyTccAccount> getAccountById(@PathVariable("userId") String userId) {
-        CommonResult<HmilyTccAccount> result = accountApi.getAccount(userId);
-        HmilyTccAccount account = result.getData();
-        return new CommonResult<>(0x00001L, "订单生成成功", account);
+        HmilyTccAccount account = orderService.getAccountById(userId);
+        return new CommonResult<>(0x00001L, "查询用户信息", account);
     }
 
     @GetMapping("/getInventory/{productId}")
     public CommonResult<HmilyTccInventory> getInventoryById(@PathVariable("productId") String productId) {
-        CommonResult<HmilyTccInventory> result = inventoryApi.getInventoryById(productId);
-        HmilyTccInventory inventory = result.getData();
-        return new CommonResult<>(0x00001L, "查询订单信息", inventory);
+        HmilyTccInventory inventory = orderService.getInventoryById(productId);
+        return new CommonResult<>(0x00001L, "查询库存信息", inventory);
     }
 }

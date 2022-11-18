@@ -12,5 +12,6 @@
         <module>transactional-seata-xa</module>
         <module>transactional-common</module>
         <module>transactional-seata-tcc</module>
+        <module>transactional-hmily-tcc</module>
     </modules>
 </project>

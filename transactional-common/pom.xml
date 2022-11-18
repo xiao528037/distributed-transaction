@@ -31,11 +31,6 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>3.1.4</version>
         </dependency>
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-            <version>1.5.2</version>
-        </dependency>
     </dependencies>
 
     <build>

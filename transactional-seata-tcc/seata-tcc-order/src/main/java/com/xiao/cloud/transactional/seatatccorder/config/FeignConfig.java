@@ -1,4 +1,4 @@
-package com.xiao.cloud.cloudcommon.config;
+package com.xiao.cloud.transactional.seatatccorder.config;
 
 
 import feign.Logger;

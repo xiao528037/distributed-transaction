@@ -1,0 +1,13 @@
+server:
+  port: 8890
+spring:
+  application:
+    name: hmily-tcc-order-service
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: f9556696-006b-4efe-9cce-a70da0d00ebc
+        group: hmily-tcc-group
+        prefix: order-config
+        file-extension: yaml

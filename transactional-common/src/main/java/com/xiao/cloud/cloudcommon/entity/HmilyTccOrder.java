@@ -1,18 +1,19 @@
 package com.xiao.cloud.cloudcommon.entity;
 
 import java.util.Date;
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * @projectName distributed-transaction
  * @author aloneMan
- * @createTime 2022-11-17 15:47:53
- * @description 
+ * @projectName distributed-transaction
+ * @createTime 2022-11-18 10:14:02
+ * @description
  */
 @Data
 @Builder
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class HmilyTccOrder {

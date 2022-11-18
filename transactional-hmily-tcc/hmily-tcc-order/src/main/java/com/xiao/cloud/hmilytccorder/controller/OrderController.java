@@ -43,16 +43,16 @@ public class OrderController {
         return new CommonResult<>(0x00001L, "订单生成成功", tccOrder);
     }
 
-    @GetMapping("/getAccount/{accountId}")
-    public CommonResult<HmilyTccAccount> getAccountById(@PathVariable("accountId") Long accountId) {
-        CommonResult<HmilyTccAccount> result = accountApi.getAccount(accountId);
+    @GetMapping("/getAccount/{userId}")
+    public CommonResult<HmilyTccAccount> getAccountById(@PathVariable("userId") String userId) {
+        CommonResult<HmilyTccAccount> result = accountApi.getAccount(userId);
         HmilyTccAccount account = result.getData();
         return new CommonResult<>(0x00001L, "订单生成成功", account);
     }
 
-    @GetMapping("/getInventory/{inventoryId}")
-    public CommonResult<HmilyTccInventory> getInventoryById(@PathVariable("inventoryId") Long inventoryId) {
-        CommonResult<HmilyTccInventory> result = inventoryApi.getInventoryById(inventoryId);
+    @GetMapping("/getInventory/{productId}")
+    public CommonResult<HmilyTccInventory> getInventoryById(@PathVariable("productId") String productId) {
+        CommonResult<HmilyTccInventory> result = inventoryApi.getInventoryById(productId);
         HmilyTccInventory inventory = result.getData();
         return new CommonResult<>(0x00001L, "查询订单信息", inventory);
     }

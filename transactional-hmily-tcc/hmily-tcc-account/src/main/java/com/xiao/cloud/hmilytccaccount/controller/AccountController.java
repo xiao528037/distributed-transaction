@@ -1,5 +1,6 @@
 package com.xiao.cloud.hmilytccaccount.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xiao.cloud.cloudcommon.common.CommonResult;
 import com.xiao.cloud.cloudcommon.entity.HmilyTccAccount;
 import com.xiao.cloud.hmilytccaccount.service.AccountService;
@@ -31,9 +32,11 @@ public class AccountController {
         return new CommonResult<>(0x00001L, "处理成功", account);
     }
 
-    @GetMapping("/get/{accountId}")
-    public CommonResult<HmilyTccAccount> getAccount(@PathVariable("accountId") Long accountId) {
-        HmilyTccAccount account = accountService.getById(accountId);
+    @GetMapping("/get/{userId}")
+    public CommonResult<HmilyTccAccount> getAccount(@PathVariable("userId") String userId) {
+        QueryWrapper<HmilyTccAccount> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(HmilyTccAccount::getUserId,userId);
+        HmilyTccAccount account = accountService.getOne(wrapper);
         Assert.notNull(account, "未查询到用户信息");
         return new CommonResult<>(0x00001L, "处理成功", account);
     }

@@ -39,6 +39,6 @@ public interface InventoryApi {
      *         库存ID
      * @return 库存信息
      */
-    @GetMapping("/get/{inventoryId}")
-    CommonResult<HmilyTccInventory> getInventoryById(@PathVariable("inventoryId") Long inventoryId);
+    @GetMapping("/get/{productId}")
+    CommonResult<HmilyTccInventory> getInventoryById(@PathVariable("productId") String productId);
 }

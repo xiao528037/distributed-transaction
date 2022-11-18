@@ -1,5 +1,6 @@
 package com.xiao.cloud.hmilytccinventory.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xiao.cloud.cloudcommon.common.CommonResult;
 import com.xiao.cloud.cloudcommon.entity.HmilyTccInventory;
 import com.xiao.cloud.hmilytccinventory.service.InventoryService;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * @author aloneMan
  * @projectName distributed-transaction
  * @createTime 2022-11-18 09:42:39
- * @description
+ * @description 库存接口
  */
 @RestController
 @RequestMapping("/hmily/inventory")
@@ -23,14 +24,17 @@ public class InventoryController {
     }
 
     @PostMapping("/deduction")
-    public CommonResult<HmilyTccInventory> deductionInventory(@RequestParam("inventoryId") Long inventoryId,@RequestParam("deductionCount") Integer deductionCount) {
+    public CommonResult<HmilyTccInventory> deductionInventory(@RequestParam("inventoryId") Long inventoryId,
+                                                              @RequestParam("deductionCount") Integer deductionCount) {
         HmilyTccInventory inventory = inventoryService.deductionInventory(inventoryId, deductionCount);
         return new CommonResult<>(0x00001L, "库存扣减成功", inventory);
     }
 
-    @GetMapping("/get/{inventoryId}")
-    public CommonResult<HmilyTccInventory> getInventoryById(@PathVariable("inventoryId") Long inventoryId) {
-        HmilyTccInventory inventory = inventoryService.getById(inventoryId);
+    @GetMapping("/get/{productId}")
+    public CommonResult<HmilyTccInventory> getInventoryById(@PathVariable("productId") String productId) {
+        QueryWrapper<HmilyTccInventory> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(HmilyTccInventory::getProductId,productId);
+        HmilyTccInventory inventory = inventoryService.getOne(wrapper);
         Assert.notNull(inventory, "未查询到相关库存信息");
         return new CommonResult<>(0x00001L, "查询库存成功", inventory);
     }

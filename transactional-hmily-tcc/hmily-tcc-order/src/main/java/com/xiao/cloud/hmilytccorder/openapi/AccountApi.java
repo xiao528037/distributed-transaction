@@ -38,6 +38,6 @@ public interface AccountApi {
      *         用户ID
      * @return 用户信息
      */
-    @GetMapping("/get/{accountId}")
-    CommonResult<HmilyTccAccount> getAccount(@PathVariable("accountId") Long accountId);
+    @GetMapping("/get/{userId}")
+    CommonResult<HmilyTccAccount> getAccount(@PathVariable("userId") String userId);
 }

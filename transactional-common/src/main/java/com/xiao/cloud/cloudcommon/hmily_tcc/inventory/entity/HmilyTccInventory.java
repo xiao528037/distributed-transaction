@@ -1,4 +1,4 @@
-package com.xiao.cloud.cloudcommon.entity;
+package com.xiao.cloud.cloudcommon.hmily_tcc.inventory.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +18,9 @@ import lombok.NoArgsConstructor;
 public class HmilyTccInventory {
     private Long id;
 
+    /**
+     * 商品ID
+     */
     private String productId;
 
     /**

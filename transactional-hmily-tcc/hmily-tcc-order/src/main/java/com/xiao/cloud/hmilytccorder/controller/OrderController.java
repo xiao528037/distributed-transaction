@@ -1,14 +1,13 @@
 package com.xiao.cloud.hmilytccorder.controller;
 
 import com.xiao.cloud.cloudcommon.common.CommonResult;
-import com.xiao.cloud.cloudcommon.entity.HmilyTccAccount;
-import com.xiao.cloud.cloudcommon.entity.HmilyTccInventory;
-import com.xiao.cloud.cloudcommon.entity.HmilyTccOrder;
-import com.xiao.cloud.hmilytccorder.openapi.AccountApi;
-import com.xiao.cloud.hmilytccorder.openapi.InventoryApi;
+import com.xiao.cloud.cloudcommon.hmily_tcc.account.entity.HmilyTccAccount;
+import com.xiao.cloud.cloudcommon.hmily_tcc.inventory.entity.HmilyTccInventory;
+import com.xiao.cloud.cloudcommon.hmily_tcc.order.entity.HmilyTccOrder;
 import com.xiao.cloud.hmilytccorder.service.OrderService;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 /**
  * @author aloneMan
@@ -27,9 +26,9 @@ public class OrderController {
 
     }
 
-    @PostMapping("/createOrder")
-    public CommonResult<HmilyTccOrder> addOrder(HmilyTccOrder hmilyTccOrder) {
-        HmilyTccOrder order = orderService.addOrder(hmilyTccOrder);
+    @PostMapping("/orderPay")
+    public CommonResult<HmilyTccOrder> orderPay(Integer count, BigDecimal amount) {
+        HmilyTccOrder order = orderService.orderPay(count, amount);
         return new CommonResult<>(0x00001L, "订单生成成功", order);
     }
 

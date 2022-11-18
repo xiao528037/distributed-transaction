@@ -3,7 +3,7 @@ package com.xiao.cloud.cloudalibabaseataorder80.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 
-import com.xiao.cloud.cloudcommon.entity.OrderList;
+import com.xiao.cloud.cloudcommon.seata_at.order.entity.OrderList;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -1,11 +1,8 @@
 package com.xiao.cloud.transactional.seatatccorder.tcc_api;
 
 import com.xiao.cloud.cloudcommon.common.CommonResult;
-import com.xiao.cloud.cloudcommon.entity.TccAccount;
-import com.xiao.cloud.cloudcommon.entity.TccStorage;
+import com.xiao.cloud.cloudcommon.seata_tcc.account.entity.TccAccount;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 

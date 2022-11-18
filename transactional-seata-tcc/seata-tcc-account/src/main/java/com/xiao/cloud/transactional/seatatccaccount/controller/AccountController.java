@@ -1,10 +1,8 @@
 package com.xiao.cloud.transactional.seatatccaccount.controller;
 
 import com.xiao.cloud.cloudcommon.common.CommonResult;
-import com.xiao.cloud.cloudcommon.entity.TccAccount;
+import com.xiao.cloud.cloudcommon.seata_tcc.account.entity.TccAccount;
 import com.xiao.cloud.transactional.seatatccaccount.service.AccountService;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;

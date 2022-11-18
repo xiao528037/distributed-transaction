@@ -1,13 +1,12 @@
 package com.xiao.cloud.transactional.seatatccorder.controller;
 
 import com.xiao.cloud.cloudcommon.common.CommonResult;
-import com.xiao.cloud.cloudcommon.entity.TccAccount;
-import com.xiao.cloud.cloudcommon.entity.TccOrder;
-import com.xiao.cloud.cloudcommon.entity.TccStorage;
+import com.xiao.cloud.cloudcommon.seata_tcc.account.entity.TccAccount;
+import com.xiao.cloud.cloudcommon.seata_tcc.order.entity.TccOrder;
+import com.xiao.cloud.cloudcommon.seata_tcc.storage.entity.TccStorage;
 import com.xiao.cloud.transactional.seatatccorder.service.OrderService;
 import com.xiao.cloud.transactional.seatatccorder.tcc_api.AccountApi;
 import com.xiao.cloud.transactional.seatatccorder.tcc_api.StorageApi;
-import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

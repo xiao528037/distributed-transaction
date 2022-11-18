@@ -1,6 +1,8 @@
-package com.xiao.cloud.cloudcommon.entity;
+package com.xiao.cloud.cloudcommon.hmily_tcc.order.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,11 +25,11 @@ public class HmilyTccOrder {
 
     private String number;
 
-    private Byte status;
+    private Integer status;
 
     private String productId;
 
-    private Long totalAmount;
+    private BigDecimal totalAmount;
 
     private Integer count;
 

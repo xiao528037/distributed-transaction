@@ -3,7 +3,7 @@ package com.xiao.cloud.cloudalibabaseataprovicerstock8001.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiao.cloud.cloudalibabaseataprovicerstock8001.mapper.StockMapper;
 import com.xiao.cloud.cloudalibabaseataprovicerstock8001.service.MyService;
-import com.xiao.cloud.cloudcommon.entity.PhoneStock;
+import com.xiao.cloud.cloudcommon.seata_at.stock.entity.PhoneStock;
 import org.springframework.stereotype.Service;
 
 /**

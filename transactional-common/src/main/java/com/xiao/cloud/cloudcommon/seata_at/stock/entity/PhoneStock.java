@@ -1,4 +1,4 @@
-package com.xiao.cloud.cloudcommon.entity;
+package com.xiao.cloud.cloudcommon.seata_at.stock.entity;
 
 import java.util.Date;
 

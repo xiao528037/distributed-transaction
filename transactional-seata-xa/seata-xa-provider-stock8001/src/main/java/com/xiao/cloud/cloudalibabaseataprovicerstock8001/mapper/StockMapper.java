@@ -1,7 +1,7 @@
 package com.xiao.cloud.cloudalibabaseataprovicerstock8001.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xiao.cloud.cloudcommon.entity.PhoneStock;
+import com.xiao.cloud.cloudcommon.seata_at.stock.entity.PhoneStock;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -3,7 +3,7 @@ package com.xiao.cloud.cloudalibabaseataorder80.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiao.cloud.cloudalibabaseataorder80.mapper.OrderMapper;
 import com.xiao.cloud.cloudalibabaseataorder80.service.OrderService;
-import com.xiao.cloud.cloudcommon.entity.OrderList;
+import com.xiao.cloud.cloudcommon.seata_at.order.entity.OrderList;
 import org.springframework.stereotype.Service;
 
 /**

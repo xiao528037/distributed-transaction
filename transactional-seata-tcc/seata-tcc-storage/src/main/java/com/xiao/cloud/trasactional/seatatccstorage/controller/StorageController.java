@@ -1,13 +1,10 @@
 package com.xiao.cloud.trasactional.seatatccstorage.controller;
 
 import com.xiao.cloud.cloudcommon.common.CommonResult;
-import com.xiao.cloud.cloudcommon.entity.TccStorage;
+import com.xiao.cloud.cloudcommon.seata_tcc.storage.entity.TccStorage;
 import com.xiao.cloud.trasactional.seatatccstorage.service.StorageService;
-import io.seata.core.context.RootContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 /**

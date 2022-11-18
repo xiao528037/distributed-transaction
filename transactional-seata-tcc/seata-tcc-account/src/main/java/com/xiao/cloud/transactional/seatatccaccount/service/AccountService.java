@@ -1,7 +1,7 @@
 package com.xiao.cloud.transactional.seatatccaccount.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xiao.cloud.cloudcommon.entity.TccAccount;
+import com.xiao.cloud.cloudcommon.seata_tcc.account.entity.TccAccount;
 import io.seata.rm.tcc.api.BusinessActionContext;
 import io.seata.rm.tcc.api.BusinessActionContextParameter;
 import io.seata.rm.tcc.api.LocalTCC;

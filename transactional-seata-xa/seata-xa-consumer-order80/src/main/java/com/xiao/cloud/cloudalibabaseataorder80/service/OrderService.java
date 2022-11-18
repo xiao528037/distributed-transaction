@@ -1,7 +1,7 @@
 package com.xiao.cloud.cloudalibabaseataorder80.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xiao.cloud.cloudcommon.entity.OrderList;
+import com.xiao.cloud.cloudcommon.seata_at.order.entity.OrderList;
 
 /**
  * @author aloneMan

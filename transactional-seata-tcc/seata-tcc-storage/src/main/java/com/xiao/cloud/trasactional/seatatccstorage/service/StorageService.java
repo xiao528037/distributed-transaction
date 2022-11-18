@@ -1,8 +1,7 @@
 package com.xiao.cloud.trasactional.seatatccstorage.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xiao.cloud.cloudcommon.common.CommonResult;
-import com.xiao.cloud.cloudcommon.entity.TccStorage;
+import com.xiao.cloud.cloudcommon.seata_tcc.storage.entity.TccStorage;
 import io.seata.rm.tcc.api.BusinessActionContext;
 import io.seata.rm.tcc.api.BusinessActionContextParameter;
 import io.seata.rm.tcc.api.LocalTCC;

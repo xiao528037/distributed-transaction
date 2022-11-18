@@ -1,13 +1,13 @@
 package com.xiao.cloud.hmilytccorder.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xiao.cloud.cloudcommon.common.CommonResult;
-import com.xiao.cloud.cloudcommon.entity.HmilyTccAccount;
-import com.xiao.cloud.cloudcommon.entity.HmilyTccInventory;
-import com.xiao.cloud.cloudcommon.entity.HmilyTccOrder;
+import com.xiao.cloud.cloudcommon.hmily_tcc.account.entity.HmilyTccAccount;
+import com.xiao.cloud.cloudcommon.hmily_tcc.inventory.entity.HmilyTccInventory;
+import com.xiao.cloud.cloudcommon.hmily_tcc.order.entity.HmilyTccOrder;
 import org.dromara.hmily.annotation.HmilyTCC;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
+
+import java.math.BigDecimal;
 
 /**
  * @author aloneMan
@@ -18,42 +18,97 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface OrderService extends IService<HmilyTccOrder> {
 
     /**
-     * 生成订单
+     * 订单支付-正常
      *
-     * @param hmilyTccOrder
+     * @param count
+     *         数量
+     * @param amount
+     *         金额
      * @return 订单信息
      */
-    @Transactional(rollbackFor = Exception.class)
-    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
-    HmilyTccOrder addOrder(HmilyTccOrder hmilyTccOrder);
+    HmilyTccOrder orderPay(Integer count, BigDecimal amount);
 
     /**
-     * 订单提交
+     * 订单支付-扣减库存try阶段异常
      *
-     * @param hmilyTccOrder
+     * @param count
+     *         数量
+     * @param amount
+     *         金额
      * @return 订单信息
      */
-    HmilyTccOrder commit(HmilyTccOrder hmilyTccOrder);
+    HmilyTccOrder inventoryTryException(Integer count, BigDecimal amount);
 
     /**
-     * 生成订单失败回滚
+     * 订单支付-扣减账户余额try阶段异常
      *
-     * @param hmilyTccOrder
+     * @param count
+     *         数量
+     * @param amount
+     *         金额
      * @return 订单信息
      */
-    HmilyTccOrder rollback(HmilyTccOrder hmilyTccOrder);
+    HmilyTccOrder accountTryException(Integer count, BigDecimal amount);
+
+    /**
+     * 订单支付-扣减库存try阶段超时
+     *
+     * @param count
+     *         数量
+     * @param amount
+     *         金额
+     * @return 订单信息
+     */
+    HmilyTccOrder inventoryTryTimeout(Integer count, BigDecimal amount);
+
+    /**
+     * 订单支付-扣减账户金额try阶段超时
+     *
+     * @param count
+     *         数量
+     * @param amount
+     *         数量
+     * @return 订单信息
+     */
+    HmilyTccOrder accountTryTimeout(Integer count, BigDecimal amount);
+
+    /**
+     * 订单支付-嵌套调用-正常
+     *
+     * @param count
+     *         数量
+     * @param amount
+     *         数量
+     * @return 订单信息
+     */
+    HmilyTccOrder orderPayNested(Integer count, BigDecimal amount);
+
+    /**
+     * 订单支付-嵌套调用-异常
+     *
+     * @param count
+     *         数量
+     * @param amount
+     *         数量
+     * @return 订单信息
+     */
+    HmilyTccOrder orderPayNestedException(Integer count, BigDecimal amount);
 
     /**
      * 查询用户信息
-     * @param userId 用户ID
+     *
+     * @param userId
+     *         用户ID
      * @return 用户信息
      */
-    public HmilyTccAccount getAccountById( String userId);
+    HmilyTccAccount getAccountById(String userId);
 
     /**
      * 查询库存信息
-     * @param productId 产品ID
+     *
+     * @param productId
+     *         产品ID
      * @return 库存信息
      */
-    public HmilyTccInventory getInventoryById(String productId);
+    HmilyTccInventory getInventoryById(String productId);
 }

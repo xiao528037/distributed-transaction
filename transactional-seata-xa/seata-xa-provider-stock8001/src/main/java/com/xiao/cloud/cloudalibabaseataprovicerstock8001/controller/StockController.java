@@ -2,11 +2,10 @@ package com.xiao.cloud.cloudalibabaseataprovicerstock8001.controller;
 
 import com.xiao.cloud.cloudalibabaseataprovicerstock8001.service.MyService;
 import com.xiao.cloud.cloudcommon.common.CommonResult;
-import com.xiao.cloud.cloudcommon.entity.PhoneStock;
+import com.xiao.cloud.cloudcommon.seata_at.stock.entity.PhoneStock;
 import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 

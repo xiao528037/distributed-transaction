@@ -1,7 +1,7 @@
 package com.xiao.cloud.transactional.seatatccorder.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xiao.cloud.cloudcommon.entity.TccOrder;
+import com.xiao.cloud.cloudcommon.seata_tcc.order.entity.TccOrder;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -1,7 +1,7 @@
 package com.xiao.cloud.trasactional.seatatccstorage.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xiao.cloud.cloudcommon.entity.TccStorage;
+import com.xiao.cloud.cloudcommon.seata_tcc.storage.entity.TccStorage;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

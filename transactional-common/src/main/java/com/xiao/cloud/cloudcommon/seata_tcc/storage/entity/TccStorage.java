@@ -1,4 +1,4 @@
-package com.xiao.cloud.cloudcommon.entity;
+package com.xiao.cloud.cloudcommon.seata_tcc.storage.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

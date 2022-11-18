@@ -3,7 +3,7 @@ package com.xiao.cloud.cloudalibabaseataprovidercommodity9001.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiao.cloud.cloudalibabaseataprovidercommodity9001.mapper.CommodityMapper;
 import com.xiao.cloud.cloudalibabaseataprovidercommodity9001.service.CommodityService;
-import com.xiao.cloud.cloudcommon.entity.CommodityDetails;
+import com.xiao.cloud.cloudcommon.seata_at.commodity.entity.CommodityDetails;
 import org.springframework.stereotype.Service;
 
 /**

@@ -1,7 +1,7 @@
 package com.xiao.cloud.cloudalibabaseataprovidercommodity9001.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xiao.cloud.cloudcommon.entity.CommodityDetails;
+import com.xiao.cloud.cloudcommon.seata_at.commodity.entity.CommodityDetails;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

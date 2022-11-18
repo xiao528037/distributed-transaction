@@ -2,7 +2,7 @@ package com.xiao.cloud.transactional.seatatccaccount.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import com.xiao.cloud.cloudcommon.entity.TccAccount;
+import com.xiao.cloud.cloudcommon.seata_tcc.account.entity.TccAccount;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -1,9 +1,8 @@
 package com.xiao.cloud.cloudalibabaseataorder80.api;
 
 import com.xiao.cloud.cloudcommon.common.CommonResult;
-import com.xiao.cloud.cloudcommon.entity.PhoneStock;
+import com.xiao.cloud.cloudcommon.seata_at.stock.entity.PhoneStock;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 

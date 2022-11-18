@@ -1,7 +1,7 @@
 package com.xiao.cloud.cloudalibabaseataprovicerstock8001.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xiao.cloud.cloudcommon.entity.PhoneStock;
+import com.xiao.cloud.cloudcommon.seata_at.stock.entity.PhoneStock;
 
 /**
  * @author aloneMan

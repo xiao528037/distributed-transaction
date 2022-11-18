@@ -1,4 +1,4 @@
-package com.xiao.cloud.cloudcommon.entity;
+package com.xiao.cloud.cloudcommon.seata_at.commodity.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;

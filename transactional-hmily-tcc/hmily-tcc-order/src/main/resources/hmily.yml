@@ -1,4 +1,7 @@
 hmily:
+  ribbon:
+    rule:
+      enabled: true
   server:
     configMode: local
     appName: hmily-order

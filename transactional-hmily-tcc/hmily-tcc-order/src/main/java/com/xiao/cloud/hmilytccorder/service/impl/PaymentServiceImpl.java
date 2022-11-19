@@ -14,7 +14,10 @@ import com.xiao.cloud.hmilytccorder.openapi.AccountApi;
 import com.xiao.cloud.hmilytccorder.openapi.InventoryApi;
 import com.xiao.cloud.hmilytccorder.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.hmily.annotation.HmilyTCC;
+import org.dromara.hmily.core.context.HmilyContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author aloneMan
@@ -40,7 +43,10 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePayment(HmilyTccOrder hmilyTccOrder) {
+        log.info("调用 Order支付方法 事务ID为 >>> {} ", HmilyContextHolder.get().getTransId());
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
         //扣减金额-正常
@@ -51,6 +57,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentInventoryTryException(HmilyTccOrder hmilyTccOrder) {
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
@@ -62,6 +69,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentAccountTryException(HmilyTccOrder hmilyTccOrder) {
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
@@ -73,6 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentInventoryTryTimeout(HmilyTccOrder hmilyTccOrder) {
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
@@ -84,6 +93,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentAccountTryTimeout(HmilyTccOrder hmilyTccOrder) {
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
@@ -95,6 +105,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentNested(HmilyTccOrder hmilyTccOrder) {
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
@@ -110,6 +121,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentNestedException(HmilyTccOrder hmilyTccOrder) {
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
@@ -140,9 +152,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void updateOrderStatus(HmilyTccOrder hmilyTccOrder, OrderStatusEnum paying) {
         hmilyTccOrder.setStatus(paying.getCode());
-        QueryWrapper<HmilyTccOrder> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(HmilyTccOrder::getNumber, hmilyTccOrder.getNumber());
-        orderMapper.update(hmilyTccOrder, wrapper);
+        orderMapper.update(hmilyTccOrder);
     }
 
     private AccountDTO buildAccountDTO(HmilyTccOrder order) {

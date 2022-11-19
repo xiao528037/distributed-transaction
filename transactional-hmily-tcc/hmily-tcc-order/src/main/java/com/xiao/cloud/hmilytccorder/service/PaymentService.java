@@ -18,7 +18,7 @@ public interface PaymentService {
      *         订单实体
      * @return 状态
      */
-    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
+
     Boolean makePayment(HmilyTccOrder hmilyTccOrder);
 
     /**
@@ -27,7 +27,7 @@ public interface PaymentService {
      * @param hmilyTccOrder
      * @return 状态
      */
-    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
+
     Boolean makePaymentInventoryTryException(HmilyTccOrder hmilyTccOrder);
 
     /**
@@ -36,7 +36,7 @@ public interface PaymentService {
      * @param hmilyTccOrder
      * @return 状态
      */
-    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
+
     Boolean makePaymentAccountTryException(HmilyTccOrder hmilyTccOrder);
 
     /**
@@ -45,7 +45,7 @@ public interface PaymentService {
      * @param hmilyTccOrder
      * @return 状态
      */
-    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
+
     Boolean makePaymentInventoryTryTimeout(HmilyTccOrder hmilyTccOrder);
     
     /**
@@ -54,7 +54,7 @@ public interface PaymentService {
      * @param hmilyTccOrder
      * @return 状态
      */
-    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
+
     Boolean makePaymentAccountTryTimeout(HmilyTccOrder hmilyTccOrder);
 
     /**
@@ -62,7 +62,7 @@ public interface PaymentService {
      * @param hmilyTccOrder
      * @return 状态
      */
-    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
+
     Boolean makePaymentNested(HmilyTccOrder hmilyTccOrder);
 
     /**
@@ -70,7 +70,7 @@ public interface PaymentService {
      * @param hmilyTccOrder
      * @return 状态
      */
-    @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
+
     Boolean makePaymentNestedException(HmilyTccOrder hmilyTccOrder);
     
     /**

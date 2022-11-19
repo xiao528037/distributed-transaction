@@ -21,7 +21,8 @@ public interface InventoryApi {
 
     /**
      * 扣减库存-正常
-     *         库存ID
+     * 库存ID
+     *
      * @param inventoryDTO
      *         扣减信息
      * @return 扣减后的库存信息
@@ -32,7 +33,8 @@ public interface InventoryApi {
 
     /**
      * 扣减库存-异常
-     *         库存ID
+     * 库存ID
+     *
      * @param inventoryDTO
      *         扣减信息
      * @return 扣减后的库存信息
@@ -42,7 +44,8 @@ public interface InventoryApi {
 
     /**
      * 扣减库存-超时
-     *         库存ID
+     * 库存ID
+     *
      * @param inventoryDTO
      *         扣减信息
      * @return 扣减后的库存信息

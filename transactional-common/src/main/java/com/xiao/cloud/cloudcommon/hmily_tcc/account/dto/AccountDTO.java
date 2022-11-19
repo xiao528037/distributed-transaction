@@ -30,12 +30,9 @@ import java.math.BigDecimal;
  * @author xiaoyu
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 public class AccountDTO implements Serializable {
 
-    private static final long serialVersionUID = 7223470850578998427L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 用户id

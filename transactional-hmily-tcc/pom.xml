@@ -20,11 +20,11 @@
     </modules>
     <properties>
         <java.version>11</java.version>
-        <boot.version>2.7.4</boot.version>
-        <alibaba.cloud.version>2021.0.4.0</alibaba.cloud.version>
-        <openfeign.version>3.1.5</openfeign.version>
-        <loadbalancer.version>3.1.5</loadbalancer.version>
-        <bootstrap.version>3.1.5</bootstrap.version>
+        <boot.version>2.3.12.RELEASE</boot.version>
+        <alibaba.cloud.version>2.2.9.RELEASE</alibaba.cloud.version>
+        <openfeign.version>2.2.10.RELEASE</openfeign.version>
+        <loadbalancer.version>2.2.9.RELEASE</loadbalancer.version>
+        <bootstrap.version>3.0.5</bootstrap.version>
         <sentinel.version>2.2.0.RELEASE</sentinel.version>
         <mysql.version>8.0.30</mysql.version>
         <druid.version>1.2.11</druid.version>
@@ -55,6 +55,12 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
                 <version>2.2.10.RELEASE</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.code.gson</groupId>
+                        <artifactId>gson</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -72,16 +78,30 @@
                 <version>${bootstrap.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2021.0.4</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>hmily-spring-boot-starter-springcloud</artifactId>
-                <version>2.1.2-SNAPSHOT</version>
+                <version>2.1.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId></exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.curator</groupId>
+                        <artifactId>curator-framework</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>curator-recipes</artifactId>
+                        <groupId>org.apache.curator</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.dromara</groupId>
+                        <artifactId>hmily-config-apollo</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!--        数据库相关-->
             <dependency>
@@ -101,19 +121,14 @@
             </dependency>
             <!--        其他-->
             <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
-                <version>${gson.version}</version>
+                <version>2.9.1</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>31.0.1-jre</version>
+                <version>30.0-jre</version>
             </dependency>
             <dependency>
                 <groupId>com.xiao.cloud.trasactional</groupId>
@@ -128,6 +143,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.5.4</version>
             </plugin>
         </plugins>
     </build>

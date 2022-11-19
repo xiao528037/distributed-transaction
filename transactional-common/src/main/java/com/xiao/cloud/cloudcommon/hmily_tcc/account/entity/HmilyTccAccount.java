@@ -1,7 +1,9 @@
 package com.xiao.cloud.cloudcommon.hmily_tcc.account.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,11 +16,8 @@ import lombok.NoArgsConstructor;
  * @description
  */
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class HmilyTccAccount {
-    private static final long serialVersionUID = -8551347266419380333L;
+public class HmilyTccAccount implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Long id;
 
     private String userId;

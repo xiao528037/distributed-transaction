@@ -9,6 +9,7 @@ import com.xiao.cloud.cloudcommon.hmily_tcc.account.mapper.AccountMapper;
 import com.xiao.cloud.cloudcommon.hmily_tcc.inventory.dto.InventoryDTO;
 import com.xiao.cloud.hmilytccaccount.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.hmily.annotation.HmilyTCC;
 import org.dromara.hmily.core.context.HmilyContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +25,9 @@ import java.util.concurrent.TimeUnit;
  * @createTime 2022-11-17 15:51:05
  * @description
  */
-@Service("accountService")
+
 @Slf4j
+@Service("accountService")
 public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccount> implements AccountService {
 
     private final AccountMapper accountMapper;
@@ -35,6 +37,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     public HmilyTccAccount payment(AccountDTO accountDTO) {
         log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行支付接口try方法", HmilyContextHolder.get().getTransId());
         //扣减金额
@@ -44,11 +47,13 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
 
 
     @Override
+    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     public HmilyTccAccount paymentWithTryException(AccountDTO accountDTO) {
         throw new RuntimeException(accountDTO.getUserId() + ">> 用户,扣减" + accountDTO.getAmount().doubleValue() + "失败");
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     public HmilyTccAccount paymentWithTryTimeOut(AccountDTO accountDTO) {
         try {
             TimeUnit.SECONDS.sleep(10);
@@ -61,16 +66,18 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "commitNested", cancelMethod = "rollbackNested")
     public HmilyTccAccount paymentWithNested(AccountNestedDTO accountDTO) {
         return null;
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "commitNested", cancelMethod = "rollbackNested")
     public HmilyTccAccount paymentWithNestedException(AccountNestedDTO nestedDTO) {
         return null;
     }
 
-    @Override
+
     public HmilyTccAccount commit(AccountDTO accountDTO) {
         log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行支付接口commit方法", HmilyContextHolder.get().getTransId());
         accountMapper.commit(accountDTO);
@@ -80,7 +87,6 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
         return hmilyTccAccount;
     }
 
-    @Override
     public HmilyTccAccount rollback(AccountDTO accountDTO) {
         log.info(">>>>>>>>>>> {} 全局事务ID {}  <<<<<<<<<<<< ", "执行支付接口rollback方法", HmilyContextHolder.get().getTransId());
         accountMapper.rollback(accountDTO);

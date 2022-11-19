@@ -7,8 +7,11 @@ import com.xiao.cloud.cloudcommon.hmily_tcc.account.dto.AccountNestedDTO;
 import com.xiao.cloud.cloudcommon.hmily_tcc.account.entity.HmilyTccAccount;
 import com.xiao.cloud.hmilytccaccount.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.hmily.core.context.HmilyContextHolder;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author aloneMan
@@ -29,7 +32,9 @@ public class AccountController {
 
 
     @PostMapping("/payment")
-    public CommonResult<HmilyTccAccount> payment(@RequestBody AccountDTO accountDTO) {
+    public CommonResult<HmilyTccAccount> payment(HttpServletRequest request, @RequestBody AccountDTO accountDTO) {
+        log.info("{} ",request);
+//        log.info("全局事务ID >>>> {} ", HmilyContextHolder.get().getTransId());
         HmilyTccAccount account = accountService.payment(accountDTO);
         return new CommonResult<>(0x00001L, "处理成功", account);
     }

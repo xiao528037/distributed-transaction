@@ -1,4 +1,7 @@
 hmily:
+  ribbon:
+    rule:
+      enabled: true
   server:
     configMode: local
     appName: hmily-account
@@ -37,10 +40,10 @@ repository:
     idleTimeout: 600000
     maxLifetime: 1800000
 
-metrics:
-  metricsName: prometheus
-  host:
-  port: 9091
-  async: true
-  threadCount : 16
-  jmxConfig:
+#metrics:
+#  metricsName: prometheus
+#  host:
+#  port: 9091
+#  async: true
+#  threadCount : 16
+#  jmxConfig:

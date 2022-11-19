@@ -23,7 +23,6 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param accountDTO
      * @return 返回支付信息
      */
-    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     HmilyTccAccount payment(AccountDTO accountDTO);
 
     /**
@@ -32,7 +31,6 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param accountDTO
      * @return 返回支付信息
      */
-    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     HmilyTccAccount paymentWithTryException(AccountDTO accountDTO);
 
     /**
@@ -41,7 +39,6 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param accountDTO
      * @return 返回支付信息
      */
-    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     HmilyTccAccount paymentWithTryTimeOut(AccountDTO accountDTO);
 
     /**
@@ -50,7 +47,6 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param accountNestedDTO
      * @return 返回支付信息
      */
-    @HmilyTCC(confirmMethod = "commitNested", cancelMethod = "rollbackNested")
     HmilyTccAccount paymentWithNested(AccountNestedDTO accountNestedDTO);
 
     /**
@@ -59,24 +55,23 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param accountNestedDTO
      * @return 返回支付信息
      */
-    @HmilyTCC(confirmMethod = "commitNested", cancelMethod = "rollbackNested")
     HmilyTccAccount paymentWithNestedException(AccountNestedDTO accountNestedDTO);
 
-    /**
+/*    *//**
      * 余额扣减提交
      *
      * @param accountDTO
      * @return 返回支付信息
-     */
+     *//*
     HmilyTccAccount commit(AccountDTO accountDTO);
 
-    /**
+    *//**
      * 余额扣减回滚
      *
      * @param accountDTO
      * @return 返回支付信息
-     */
-    HmilyTccAccount rollback(AccountDTO accountDTO);
+     *//*
+    HmilyTccAccount rollback(AccountDTO accountDTO);*/
 
     /**
      * 嵌套调用提交

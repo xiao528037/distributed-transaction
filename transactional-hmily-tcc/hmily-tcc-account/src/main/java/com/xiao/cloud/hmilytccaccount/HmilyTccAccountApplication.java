@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableFeignClients
 //@EnableDiscoveryClient
-@EnableTransactionManagement(proxyTargetClass = true)
+@EnableTransactionManagement
 @MapperScan("com.xiao.cloud.cloudcommon.hmily_tcc.account.mapper")
 @SpringBootApplication(exclude = {MongoAutoConfiguration.class,  MongoDataAutoConfiguration.class})
 public class HmilyTccAccountApplication {

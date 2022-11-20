@@ -39,6 +39,7 @@ public interface InventoryApi {
      *         扣减信息
      * @return 扣减后的库存信息
      */
+    @Hmily
     @PostMapping("/decreaseException")
     CommonResult<HmilyTccInventory> decreaseException(@RequestBody InventoryDTO inventoryDTO);
 
@@ -50,6 +51,7 @@ public interface InventoryApi {
      *         扣减信息
      * @return 扣减后的库存信息
      */
+    @Hmily
     @PostMapping("/decreaseTimeout")
     CommonResult<HmilyTccInventory> decreaseTimeout(@RequestBody InventoryDTO inventoryDTO);
 

@@ -41,6 +41,7 @@ public interface AccountApi {
      *         扣减信息
      * @return 扣减信息
      */
+    @Hmily
     @PostMapping("/paymentException")
     CommonResult<HmilyTccAccount> paymentException(@RequestBody AccountDTO accountDTO);
 
@@ -51,6 +52,7 @@ public interface AccountApi {
      *         扣减信息
      * @return 扣减信息
      */
+    @Hmily
     @PostMapping("/paymentTime")
     public CommonResult<HmilyTccAccount> paymentTimeout(@RequestBody AccountDTO accountDTO);
 
@@ -61,6 +63,7 @@ public interface AccountApi {
      *         扣减金额和金额信息
      * @return 扣减信息
      */
+    @Hmily
     @PostMapping("/paymentNested")
     CommonResult<HmilyTccAccount> paymentWithNested(@RequestBody AccountNestedDTO accountNestedDTO);
 
@@ -71,6 +74,7 @@ public interface AccountApi {
      *         扣减金额和金额信息
      * @return 扣减信息
      */
+    @Hmily
     @PostMapping("/paymentNestedException")
     CommonResult<HmilyTccAccount> paymentNestedException(@RequestBody AccountNestedDTO accountNestedDTO);
 

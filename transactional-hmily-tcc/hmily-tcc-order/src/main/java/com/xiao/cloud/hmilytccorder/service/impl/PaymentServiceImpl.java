@@ -15,9 +15,12 @@ import com.xiao.cloud.hmilytccorder.openapi.InventoryApi;
 import com.xiao.cloud.hmilytccorder.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.hmily.annotation.HmilyTCC;
+import org.dromara.hmily.common.exception.HmilyRuntimeException;
 import org.dromara.hmily.core.context.HmilyContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 
 /**
  * @author aloneMan
@@ -59,6 +62,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentInventoryTryException(HmilyTccOrder hmilyTccOrder) {
+        log.info("调用 makePaymentInventoryTryException 支付方法 事务ID为 >>> {} ", HmilyContextHolder.get().getTransId());
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
         //扣除用户金额-正常
@@ -71,18 +75,20 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentAccountTryException(HmilyTccOrder hmilyTccOrder) {
+        log.info("调用 makePaymentAccountTryException 支付方法 事务ID为 >>> {} ", HmilyContextHolder.get().getTransId());
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
-        //扣除用户金额-正常
-        accountApi.paymentException(buildAccountDTO(hmilyTccOrder));
-        //扣减库存数量-异常
+        //扣减库存数量-正常
         inventoryApi.decrease(buildInventoryDTO(hmilyTccOrder));
+        //扣除用户金额-异常
+        accountApi.paymentException(buildAccountDTO(hmilyTccOrder));
         return Boolean.TRUE;
     }
 
     @Override
     @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentInventoryTryTimeout(HmilyTccOrder hmilyTccOrder) {
+        log.info("调用 makePaymentInventoryTryTimeout 支付方法 事务ID为 >>> {} ", HmilyContextHolder.get().getTransId());
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
         //扣除用户金额-正常
@@ -95,6 +101,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentAccountTryTimeout(HmilyTccOrder hmilyTccOrder) {
+        log.info("调用 makePaymentAccountTryTimeout 支付方法 事务ID为 >>> {} ", HmilyContextHolder.get().getTransId());
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
         //扣除用户金额-超时
@@ -107,6 +114,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentNested(HmilyTccOrder hmilyTccOrder) {
+        log.info("调用 makePaymentNested 支付方法 事务ID为 >>> {} ", HmilyContextHolder.get().getTransId());
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
         //判断用户余额是否充足
@@ -123,6 +131,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @HmilyTCC(confirmMethod = "confirmOrderStatus", cancelMethod = "cancelOrderStatus")
     public Boolean makePaymentNestedException(HmilyTccOrder hmilyTccOrder) {
+        log.info("调用 makePaymentNestedException 支付方法 事务ID为 >>> {} ", HmilyContextHolder.get().getTransId());
         //更新订单状态
         updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAYING);
         //判断用户余额是否充足
@@ -139,20 +148,30 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Boolean confirmOrderStatus(HmilyTccOrder hmilyTccOrder) {
-        updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAY_SUCCESS);
+        int i = updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAY_SUCCESS);
+        if (i > 0) {
+            log.info("订单状态修改为 >> 支付成功 << 成功 >> {} ", i);
+        } else {
+            log.info("订单状态修改为 >> 支付成功 << 失败,即将重试 >> {} ", i);
+        }
         return Boolean.TRUE;
     }
 
     @Override
     public Boolean cancelOrderStatus(HmilyTccOrder hmilyTccOrder) {
-        updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAY_FAIL);
+        int i = updateOrderStatus(hmilyTccOrder, OrderStatusEnum.PAY_FAIL);
+        if (i > 0) {
+            log.info("订单状态修改为 >> 支付失败 << 成功 >> {} ", i);
+        } else {
+            log.info("订单状态修改为 >> 支付失败 << 失败,即将重试 >> {} ", i);
+        }
         return Boolean.TRUE;
     }
 
     @Override
-    public void updateOrderStatus(HmilyTccOrder hmilyTccOrder, OrderStatusEnum paying) {
+    public int updateOrderStatus(HmilyTccOrder hmilyTccOrder, OrderStatusEnum paying) {
         hmilyTccOrder.setStatus(paying.getCode());
-        orderMapper.update(hmilyTccOrder);
+        return orderMapper.update(hmilyTccOrder);
     }
 
     private AccountDTO buildAccountDTO(HmilyTccOrder order) {

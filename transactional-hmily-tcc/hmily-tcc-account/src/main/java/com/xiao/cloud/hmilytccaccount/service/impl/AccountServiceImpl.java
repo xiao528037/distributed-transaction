@@ -7,16 +7,15 @@ import com.xiao.cloud.cloudcommon.hmily_tcc.account.dto.AccountNestedDTO;
 import com.xiao.cloud.cloudcommon.hmily_tcc.account.entity.HmilyTccAccount;
 import com.xiao.cloud.cloudcommon.hmily_tcc.account.mapper.AccountMapper;
 import com.xiao.cloud.cloudcommon.hmily_tcc.inventory.dto.InventoryDTO;
+import com.xiao.cloud.hmilytccaccount.openapi.InventoryApi;
 import com.xiao.cloud.hmilytccaccount.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.hmily.annotation.HmilyTCC;
+import org.dromara.hmily.common.utils.GsonUtils;
 import org.dromara.hmily.core.context.HmilyContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,8 +31,11 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
 
     private final AccountMapper accountMapper;
 
-    public AccountServiceImpl(AccountMapper accountMapper) {
+    private final InventoryApi inventoryApi;
+
+    public AccountServiceImpl(AccountMapper accountMapper, InventoryApi inventoryApi) {
         this.accountMapper = accountMapper;
+        this.inventoryApi = inventoryApi;
     }
 
     @Override
@@ -49,12 +51,14 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
     @Override
     @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     public HmilyTccAccount paymentWithTryException(AccountDTO accountDTO) {
+        log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行支付接口paymentWithTryException方法", HmilyContextHolder.get().getTransId());
         throw new RuntimeException(accountDTO.getUserId() + ">> 用户,扣减" + accountDTO.getAmount().doubleValue() + "失败");
     }
 
     @Override
     @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     public HmilyTccAccount paymentWithTryTimeOut(AccountDTO accountDTO) {
+        log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行支付接口paymentWithTryTimeOut方法", HmilyContextHolder.get().getTransId());
         try {
             TimeUnit.SECONDS.sleep(10);
         } catch (InterruptedException e) {
@@ -67,43 +71,71 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
 
     @Override
     @HmilyTCC(confirmMethod = "commitNested", cancelMethod = "rollbackNested")
-    public HmilyTccAccount paymentWithNested(AccountNestedDTO accountDTO) {
-        return null;
+    public HmilyTccAccount paymentWithNested(AccountNestedDTO accountNestedDTO) {
+        log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行支付接口paymentWithNested方法", HmilyContextHolder.get().getTransId());
+        HmilyTccAccount hmilyTccAccount = decrease(buildAccountDTO(accountNestedDTO));
+        inventoryApi.decrease(buildInventoryDTO(accountNestedDTO));
+        return hmilyTccAccount;
     }
 
     @Override
     @HmilyTCC(confirmMethod = "commitNested", cancelMethod = "rollbackNested")
-    public HmilyTccAccount paymentWithNestedException(AccountNestedDTO nestedDTO) {
-        return null;
+    @Transactional
+    public HmilyTccAccount paymentWithNestedException(AccountNestedDTO accountNestedDTO) {
+        log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行支付接口paymentWithNestedException方法", HmilyContextHolder.get().getTransId());
+        HmilyTccAccount hmilyTccAccount = decrease(buildAccountDTO(accountNestedDTO));
+        inventoryApi.decreaseException(buildInventoryDTO(accountNestedDTO));
+        return hmilyTccAccount;
     }
 
 
     public HmilyTccAccount commit(AccountDTO accountDTO) {
-        log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行支付接口commit方法", HmilyContextHolder.get().getTransId());
-        accountMapper.commit(accountDTO);
-        QueryWrapper<HmilyTccAccount> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(HmilyTccAccount::getUserId, accountDTO.getUserId());
-        HmilyTccAccount hmilyTccAccount = accountMapper.selectOne(queryWrapper);
+        int commit = accountMapper.commit(accountDTO);
+        if (commit >= 0) {
+            log.info("用户余额扣减成功 >>> {} ", commit);
+        } else {
+            log.info("用户余额扣减失败,即将重试");
+        }
+        HmilyTccAccount hmilyTccAccount = getHmilyTccAccount(accountDTO);
         return hmilyTccAccount;
     }
 
     public HmilyTccAccount rollback(AccountDTO accountDTO) {
-        log.info(">>>>>>>>>>> {} 全局事务ID {}  <<<<<<<<<<<< ", "执行支付接口rollback方法", HmilyContextHolder.get().getTransId());
-        accountMapper.rollback(accountDTO);
-        QueryWrapper<HmilyTccAccount> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(HmilyTccAccount::getUserId, accountDTO.getUserId());
-        HmilyTccAccount hmilyTccAccount = accountMapper.selectOne(queryWrapper);
+        int rollback = accountMapper.rollback(accountDTO);
+        if (rollback >= 0) {
+            log.info("用户冻结余额恢复成功 >>> {} ", rollback);
+        } else {
+            log.info("用户冻结余额恢复失败,即将重试");
+        }
+        HmilyTccAccount hmilyTccAccount = getHmilyTccAccount(accountDTO);
         return hmilyTccAccount;
     }
 
-    @Override
+
+
+    @Transactional(rollbackFor = Exception.class)
     public HmilyTccAccount commitNested(AccountNestedDTO accountNestedDTO) {
-        return null;
+        AccountDTO accountDTO = buildAccountDTO(accountNestedDTO);
+        int commit = accountMapper.commit(accountDTO);
+        if (commit >= 0) {
+            log.info("用户余额扣减成功 >>> {} ", commit);
+        } else {
+            log.info("用户余额扣减失败,即将重试");
+        }
+        HmilyTccAccount hmilyTccAccount = getHmilyTccAccount(accountDTO);
+        return hmilyTccAccount;
     }
 
-    @Override
+    @Transactional(rollbackFor = Exception.class)
     public HmilyTccAccount rollbackNested(AccountNestedDTO accountNestedDTO) {
-        return null;
+        AccountDTO accountDTO = buildAccountDTO(accountNestedDTO);
+        int rollback = accountMapper.rollback(accountDTO);
+        if (rollback >= 0) {
+            log.info("用户冻结余额恢复成功 >>> {} ", rollback);
+        } else {
+            log.info("用户冻结余额恢复失败,即将重试");
+        }
+        return getHmilyTccAccount(accountDTO);
     }
 
 
@@ -117,6 +149,11 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, HmilyTccAccou
         if (decrease <= 0) {
             throw new RuntimeException(accountDTO.getUserId() + ">> 用户,扣减" + accountDTO.getAmount().doubleValue() + "失败");
         }
+        HmilyTccAccount hmilyTccAccount = getHmilyTccAccount(accountDTO);
+        return hmilyTccAccount;
+    }
+
+    private HmilyTccAccount getHmilyTccAccount(AccountDTO accountDTO) {
         QueryWrapper<HmilyTccAccount> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(HmilyTccAccount::getUserId, accountDTO.getUserId());
         HmilyTccAccount hmilyTccAccount = accountMapper.selectOne(queryWrapper);

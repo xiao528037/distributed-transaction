@@ -32,9 +32,7 @@ public class AccountController {
 
 
     @PostMapping("/payment")
-    public CommonResult<HmilyTccAccount> payment(HttpServletRequest request, @RequestBody AccountDTO accountDTO) {
-        log.info("{} ",request);
-//        log.info("全局事务ID >>>> {} ", HmilyContextHolder.get().getTransId());
+    public CommonResult<HmilyTccAccount> payment(@RequestBody AccountDTO accountDTO) {
         HmilyTccAccount account = accountService.payment(accountDTO);
         return new CommonResult<>(0x00001L, "处理成功", account);
     }

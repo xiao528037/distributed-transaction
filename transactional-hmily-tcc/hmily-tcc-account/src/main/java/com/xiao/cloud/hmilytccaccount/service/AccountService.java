@@ -79,8 +79,7 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param accountNestedDTO
      * @return 支付信息
      */
-    @Transactional(rollbackFor = Exception.class)
-    HmilyTccAccount commitNested(AccountNestedDTO accountNestedDTO);
+    /*HmilyTccAccount commitNested(AccountNestedDTO accountNestedDTO);*/
 
     /**
      * 嵌套调用回滚
@@ -88,7 +87,6 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param accountNestedDTO
      * @return 支付信息
      */
-    @Transactional(rollbackFor = Exception.class)
-    HmilyTccAccount rollbackNested(AccountNestedDTO accountNestedDTO);
+   /* HmilyTccAccount rollbackNested(AccountNestedDTO accountNestedDTO);*/
 
 }

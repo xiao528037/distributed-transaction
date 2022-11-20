@@ -21,7 +21,6 @@ public interface InventoryService extends IService<HmilyTccInventory> {
      *         扣除信息
      * @return 返回扣减后的数量
      */
-    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     HmilyTccInventory decreaseInventory(InventoryDTO inventoryDTO);
 
     /**
@@ -31,7 +30,6 @@ public interface InventoryService extends IService<HmilyTccInventory> {
      *         扣除信息
      * @return 返回扣减后的数量
      */
-    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     HmilyTccInventory decreaseInventoryException(InventoryDTO inventoryDTO);
 
     /**
@@ -41,8 +39,8 @@ public interface InventoryService extends IService<HmilyTccInventory> {
      *         扣除信息
      * @return 返回扣减后的数量
      */
-    @HmilyTCC(confirmMethod = "commit", cancelMethod = "rollback")
     HmilyTccInventory decreaseInventoryTimeout(InventoryDTO inventoryDTO);
+
     /**
      * 扣除库存提交
      *
@@ -50,14 +48,14 @@ public interface InventoryService extends IService<HmilyTccInventory> {
      *         扣除信息
      * @return 返回扣减后的数量
      */
-    HmilyTccInventory commit(InventoryDTO inventoryDTO);
+    /*HmilyTccInventory commit(InventoryDTO inventoryDTO);
 
-    /**
+    *//**
      * 扣除库存回滚
      *
      * @param inventoryDTO
      *         扣除数量
      * @return 返回扣减后的数量
      */
-    HmilyTccInventory rollback(InventoryDTO inventoryDTO);
+    /*HmilyTccInventory rollback(InventoryDTO inventoryDTO);*/
 }

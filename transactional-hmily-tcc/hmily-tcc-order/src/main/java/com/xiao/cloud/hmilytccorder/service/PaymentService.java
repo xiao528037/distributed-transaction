@@ -97,5 +97,5 @@ public interface PaymentService {
      * @param paying
      *         支付状态
      */
-    void updateOrderStatus(HmilyTccOrder hmilyTccOrder, OrderStatusEnum paying);
+    int updateOrderStatus(HmilyTccOrder hmilyTccOrder, OrderStatusEnum paying);
 }

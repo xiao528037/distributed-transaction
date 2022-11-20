@@ -113,8 +113,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, HmilyTccOrder> im
         order.setStatus(OrderStatusEnum.NOT_PAY.getCode());
         order.setTotalAmount(amount);
         order.setCount(count);
-        //demo中 表里面存的用户id为10000
-        order.setUserId("10000");
+        //demo中 表里面存的用户id为1
+        order.setUserId("1");
         return order;
     }
 

@@ -32,6 +32,41 @@ public class OrderController {
         return new CommonResult<>(0x00001L, "订单生成成功", order);
     }
 
+    @PostMapping("/orderPay/inventoryException")
+    public CommonResult<HmilyTccOrder> orderPayInventoryException(Integer count, BigDecimal amount) {
+        HmilyTccOrder hmilyTccOrder = orderService.inventoryTryException(count, amount);
+        return new CommonResult<>(0x00001L, "订单生成成功", hmilyTccOrder);
+    }
+
+    @PostMapping("/orderPay/accountException")
+    public CommonResult<HmilyTccOrder> orderPayAccountException(Integer count, BigDecimal amount) {
+        HmilyTccOrder hmilyTccOrder = orderService.accountTryException(count, amount);
+        return new CommonResult<>(0x00001L, "订单生成成功", hmilyTccOrder);
+    }
+
+    @PostMapping("/orderPay/inventoryTimeout")
+    public CommonResult<HmilyTccOrder> orderPayInventoryTimeout(Integer count, BigDecimal amount) {
+        HmilyTccOrder hmilyTccOrder = orderService.inventoryTryTimeout(count, amount);
+        return new CommonResult<>(0x00001L, "订单生成成功", hmilyTccOrder);
+    }
+
+    @PostMapping("/orderPay/accountTimeout")
+    public CommonResult<HmilyTccOrder> orderPayAccountTimeout(Integer count, BigDecimal amount) {
+        HmilyTccOrder hmilyTccOrder = orderService.accountTryTimeout(count, amount);
+        return new CommonResult<>(0x00001L, "订单生成成功", hmilyTccOrder);
+    }
+
+    @PostMapping("/orderPay/nested")
+    public CommonResult<HmilyTccOrder> nested(Integer count, BigDecimal amount) {
+        HmilyTccOrder order = orderService.orderPayNested(count, amount);
+        return new CommonResult<>(0x00001L, "订单生成成功", order);
+    }
+    @PostMapping("/orderPay/nestedException")
+    public CommonResult<HmilyTccOrder> nestedException(Integer count, BigDecimal amount) {
+        HmilyTccOrder order = orderService.orderPayNestedException(count, amount);
+        return new CommonResult<>(0x00001L, "订单生成成功", order);
+    }
+
     @GetMapping("/getOrder/{orderId}")
     public CommonResult<HmilyTccOrder> getOrder(@PathVariable("orderId") Long orderId) {
         HmilyTccOrder tccOrder = orderService.getById(orderId);

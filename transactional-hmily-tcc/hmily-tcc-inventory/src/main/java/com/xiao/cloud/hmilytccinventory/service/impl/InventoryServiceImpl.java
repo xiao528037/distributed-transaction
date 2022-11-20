@@ -7,8 +7,10 @@ import com.xiao.cloud.cloudcommon.hmily_tcc.inventory.entity.HmilyTccInventory;
 import com.xiao.cloud.cloudcommon.hmily_tcc.inventory.mapper.InventoryMapper;
 import com.xiao.cloud.hmilytccinventory.service.InventoryService;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.hmily.annotation.HmilyTCC;
 import org.dromara.hmily.core.context.HmilyContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.concurrent.TimeUnit;
@@ -30,6 +32,7 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, HmilyTccI
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "commitMethod", cancelMethod = "rollbackMethod")
     public HmilyTccInventory decreaseInventory(InventoryDTO inventoryDTO) {
         log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行库存接口try方法-正常", HmilyContextHolder.get().getTransId());
         HmilyTccInventory hmilyTccInventory = decrease(inventoryDTO);
@@ -37,12 +40,14 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, HmilyTccI
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "commitMethod", cancelMethod = "rollbackMethod")
     public HmilyTccInventory decreaseInventoryException(InventoryDTO inventoryDTO) {
         log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行库存接口try方法-异常", HmilyContextHolder.get().getTransId());
         throw new RuntimeException("扣除 >>> productId >> " + inventoryDTO.getProductId() + ",数量" + inventoryDTO.getCount() + " <<< 失败");
     }
 
     @Override
+    @HmilyTCC(confirmMethod = "commitMethod", cancelMethod = "rollbackMethod")
     public HmilyTccInventory decreaseInventoryTimeout(InventoryDTO inventoryDTO) {
         log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行库存接口try方法-超时", HmilyContextHolder.get().getTransId());
         try {
@@ -54,19 +59,25 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, HmilyTccI
         return hmilyTccInventory;
     }
 
-
-    @Override
-    public HmilyTccInventory commit(InventoryDTO inventoryDTO) {
-        log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行库存接口commit方法", HmilyContextHolder.get().getTransId());
-        inventoryMapper.commit(inventoryDTO);
+    public HmilyTccInventory commitMethod(InventoryDTO inventoryDTO) {
+        int commitMethod = inventoryMapper.commit(inventoryDTO);
+        if (commitMethod > 0) {
+            log.info("执行库存扣减成功 >>>> {} ", commitMethod);
+        } else {
+            log.info("执行库存扣减失败,即将重试 >>>> {} ", commitMethod);
+        }
         HmilyTccInventory hmilyTccInventory = getHmilyTccInventory(inventoryDTO);
         return hmilyTccInventory;
     }
 
-    @Override
-    public HmilyTccInventory rollback(InventoryDTO inventoryDTO) {
-        log.info(">>>>>>>>>>> {} 全局事务ID {} <<<<<<<<<<<< ", "执行库存接口rollback方法", HmilyContextHolder.get().getTransId());
-        inventoryMapper.rollback(inventoryDTO);
+
+    public HmilyTccInventory rollbackMethod(InventoryDTO inventoryDTO) {
+        int rollbackMethod = inventoryMapper.rollback(inventoryDTO);
+        if (rollbackMethod > 0) {
+            log.info("执行恢复冻结库存成功 >>>> {} ", rollbackMethod);
+        } else {
+            log.info("执行恢复冻结库存失败,即将重试 >>>> {} ", rollbackMethod);
+        }
         HmilyTccInventory hmilyTccInventory = getHmilyTccInventory(inventoryDTO);
         return hmilyTccInventory;
     }

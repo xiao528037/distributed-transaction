@@ -21,8 +21,8 @@ public interface InventoryMapper extends BaseMapper<HmilyTccInventory> {
      * @return 更新数量
      */
     @Update("UPDATE hmily_tcc_stock.hmily_tcc_inventory SET total_inventory = total_inventory - #{count,jdbcType=INTEGER}," +
-            "lock_inventory = #{count,jdbcType=INTEGER} WHERE product_id = #{productId,jdbcType=VARCHAR} AND " +
-            "lock_inventory >= #{count,jdbcType=INTEGER}")
+            "lock_inventory = lock_inventory + #{count,jdbcType=INTEGER}  WHERE product_id = #{productId,jdbcType=VARCHAR} AND " +
+            "total_inventory >= #{count,jdbcType=INTEGER}")
     int decrease(InventoryDTO inventoryDTO);
 
     /**

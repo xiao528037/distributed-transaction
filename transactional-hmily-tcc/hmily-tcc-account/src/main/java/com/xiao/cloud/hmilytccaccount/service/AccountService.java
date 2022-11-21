@@ -63,7 +63,7 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param accountDTO
      * @return 返回支付信息
      *//*
-    HmilyTccAccount commit(AccountDTO accountDTO);
+    MessageTxAccount commit(AccountDTO accountDTO);
 
     *//**
      * 余额扣减回滚
@@ -71,7 +71,7 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param accountDTO
      * @return 返回支付信息
      *//*
-    HmilyTccAccount rollback(AccountDTO accountDTO);*/
+    MessageTxAccount rollback(AccountDTO accountDTO);*/
 
     /**
      * 嵌套调用提交
@@ -79,7 +79,7 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param accountNestedDTO
      * @return 支付信息
      */
-    /*HmilyTccAccount commitNested(AccountNestedDTO accountNestedDTO);*/
+    /*MessageTxAccount commitNested(AccountNestedDTO accountNestedDTO);*/
 
     /**
      * 嵌套调用回滚
@@ -87,6 +87,6 @@ public interface AccountService extends IService<HmilyTccAccount> {
      * @param accountNestedDTO
      * @return 支付信息
      */
-   /* HmilyTccAccount rollbackNested(AccountNestedDTO accountNestedDTO);*/
+   /* MessageTxAccount rollbackNested(AccountNestedDTO accountNestedDTO);*/
 
 }

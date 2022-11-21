@@ -48,7 +48,7 @@ public interface InventoryService extends IService<HmilyTccInventory> {
      *         扣除信息
      * @return 返回扣减后的数量
      */
-    /*HmilyTccInventory commit(InventoryDTO inventoryDTO);
+    /*MessageTxInventory commit(InventoryDTO inventoryDTO);
 
     *//**
      * 扣除库存回滚
@@ -57,5 +57,5 @@ public interface InventoryService extends IService<HmilyTccInventory> {
      *         扣除数量
      * @return 返回扣减后的数量
      */
-    /*HmilyTccInventory rollback(InventoryDTO inventoryDTO);*/
+    /*MessageTxInventory rollback(InventoryDTO inventoryDTO);*/
 }

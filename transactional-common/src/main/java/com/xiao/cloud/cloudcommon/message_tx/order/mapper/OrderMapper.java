@@ -3,9 +3,8 @@ package com.xiao.cloud.cloudcommon.message_tx.order.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xiao.cloud.cloudcommon.hmily_tcc.order.entity.HmilyTccOrder;
 import com.xiao.cloud.cloudcommon.message_tx.order.entity.MessageTxOrder;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author aloneMan
@@ -19,11 +18,11 @@ public interface OrderMapper extends BaseMapper<MessageTxOrder> {
     /**
      * 添加订单信息
      *
-     * @param hmilyTccOrder
+     * @param messageTxOrder
      *         订单信息
      * @return 数量
      */
-    @Insert("INSERT INTO hmily_tcc_order.hmily_tcc_order(create_time,number,status,product_id,total_amount,count,user_id)" +
+    @Insert("INSERT INTO message_tx_order.message_tx_order(create_time,number,status,product_id,total_amount,count,user_id)" +
             "VALUES (#{createTime,jdbcType=TIMESTAMP}," +
             "#{number,jdbcType=VARCHAR}," +
             "#{status,jdbcType=INTEGER}," +
@@ -31,15 +30,38 @@ public interface OrderMapper extends BaseMapper<MessageTxOrder> {
             "#{totalAmount,jdbcType=DECIMAL}," +
             "#{count,jdbcType=INTEGER}," +
             "#{userId,jdbcType=VARCHAR})")
-    int save(HmilyTccOrder hmilyTccOrder);
+    int save(MessageTxOrder messageTxOrder);
 
     /**
      * 更新订单状态
      *
-     * @param hmilyTccOrder
+     * @param messageTxOrder
      *         订单对象
      * @return 数量
      */
-    @Update("UPDATE hmily_tcc_order.hmily_tcc_order SET status = #{status,jdbcType=INTEGER} WHERE number = #{number,jdbcType=VARCHAR}")
-    int update(HmilyTccOrder hmilyTccOrder);
+    @Update("UPDATE message_tx_order.message_tx_order SET status = #{status,jdbcType=INTEGER} WHERE number = #{number,jdbcType=VARCHAR}")
+    int update(MessageTxOrder messageTxOrder);
+
+    /**
+     * 查询事务是否存在
+     *
+     * @param transactionalId
+     *         事务ID
+     * @return 存在返回1，没有返回false
+     */
+    @Select("SELECT count(0) FROM message_tx_order.transactional_record" +
+            " WHERE transactional_id = #{transactionalId,jdbcType=VARCHAR}")
+    int isExist(String transactionalId);
+
+    /**
+     *
+     * 添加事务信息
+     *
+     * @param productId 订单ID
+     * @param transactionalId 事务ID
+     * @return 添加数量
+     */
+    @Insert("INSERT INTO message_tx_order.transactional_record(order_number,transactional_id) VALUES " +
+            "(#{productId,jdbcType=VARCHAR},#{transactionalId,jdbcType=VARCHAR})")
+    int saveTransactional(@Param("productId") String productId, @Param("transactionalId") String transactionalId);
 }

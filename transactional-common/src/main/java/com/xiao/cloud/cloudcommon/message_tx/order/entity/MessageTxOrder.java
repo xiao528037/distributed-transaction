@@ -1,10 +1,8 @@
 package com.xiao.cloud.cloudcommon.message_tx.order.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -15,10 +13,8 @@ import java.util.Date;
  * @description
  */
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class MessageTxOrder {
+@ToString
+public class MessageTxOrder implements Serializable {
     private Long id;
 
     private Date createTime;

@@ -1,0 +1,13 @@
+server:
+  port: 8889
+spring:
+  application:
+    name: message-tx-order-service
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: 905a8e43-d509-45f4-8ec8-70ecb2851cff
+        group: message-tx-group
+        prefix: order-config
+        file-extension: yaml

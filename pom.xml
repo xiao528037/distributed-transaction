@@ -13,6 +13,6 @@
         <module>transactional-common</module>
         <module>transactional-seata-tcc</module>
         <module>transactional-hmily-tcc</module>
-        <module>transactional-message-rocketmq</module>
+        <module>transactional-message-tx</module>
     </modules>
 </project>

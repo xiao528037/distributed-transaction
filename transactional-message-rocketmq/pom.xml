@@ -16,7 +16,6 @@
     <modules>
         <module>rocketmq-message-account</module>
         <module>rocketmq-message-order</module>
-        <module>rocketmq-message-stock</module>
     </modules>
     <properties>
         <java.version>11</java.version>

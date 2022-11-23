@@ -41,7 +41,7 @@ public class OrderController {
         return new CommonResult<>(0x000001L, "发送成功", order);
     }
 
-    private MessageTxOrder buildOrder(Integer count, BigDecimal amount) {
+    public static MessageTxOrder buildOrder(Integer count, BigDecimal amount) {
         MessageTxOrder order = new MessageTxOrder();
         order.setCreateTime(new Date());
         order.setNumber(String.valueOf(UUID.randomUUID()));

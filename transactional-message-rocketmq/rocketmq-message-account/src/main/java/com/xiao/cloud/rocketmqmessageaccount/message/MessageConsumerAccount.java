@@ -32,7 +32,7 @@ public class MessageConsumerAccount {
 
     @Service
     @RocketMQMessageListener(topic = "message_tx_account", consumerGroup = "tx_account_consumer")
-    public class ConsumerStock implements RocketMQListener<MessageExt> {
+    public class ConsumerAccount implements RocketMQListener<MessageExt> {
         @Override
         public void onMessage(MessageExt message) {
             MessageTxOrder messageTxOrder = JSON.parseObject(message.getBody(), MessageTxOrder.class);
@@ -43,7 +43,6 @@ public class MessageConsumerAccount {
             log.info("消费者是 >>> {} 收到的消息是 >>> {} tag >>> {}", "One", new String(message.getBody()), message.getTags());
         }
     }
-
     private AccountDTO buildAccountDTO(MessageTxOrder order) {
         AccountDTO accountDTO = new AccountDTO();
         accountDTO.setAmount(order.getTotalAmount());

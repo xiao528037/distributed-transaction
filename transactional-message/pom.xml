@@ -8,14 +8,14 @@
         <version>V1.0</version>
     </parent>
     <groupId>com.xiao.cloud</groupId>
-    <artifactId>transactional-message-tx</artifactId>
+    <artifactId>transactional-message</artifactId>
     <version>v1.0</version>
-    <name>transactional-message-tx</name>
-    <description>通过rocketmq事务消息的最终一致性，来实现分布式事务</description>
+    <name>transactional-message</name>
+    <description>消息最大努力通知</description>
     <packaging>pom</packaging>
     <modules>
-        <module>rocketmq-message-account</module>
-        <module>rocketmq-message-order</module>
+        <module>message-account</module>
+        <module>message-recharge</module>
     </modules>
     <properties>
         <java.version>11</java.version>
@@ -111,7 +111,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.5.4</version>
             </plugin>
         </plugins>
     </build>

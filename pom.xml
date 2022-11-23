@@ -14,5 +14,6 @@
         <module>transactional-seata-tcc</module>
         <module>transactional-hmily-tcc</module>
         <module>transactional-message-tx</module>
+        <module>transactional-message</module>
     </modules>
 </project>

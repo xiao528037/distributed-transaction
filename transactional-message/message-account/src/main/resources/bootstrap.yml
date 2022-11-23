@@ -1,0 +1,14 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: message-account-service
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: f64df9de-f23e-4dba-a58a-90549daa9b9a
+        group: message-group
+        prefix: account-config
+        file-extension: yaml
+

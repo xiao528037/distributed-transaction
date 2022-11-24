@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @projectName distributed-transaction
  * @author aloneMan
+ * @projectName distributed-transaction
  * @createTime 2022-11-23 17:01:41
- * @description 
+ * @description
  */
 @Data
 @AllArgsConstructor
@@ -24,6 +24,8 @@ public class TbTx {
     private String username;
 
     private BigDecimal amount;
+
+    private Boolean isSuccess;
 
     private Date createTime;
 }

@@ -7,6 +7,7 @@ import com.xiao.cloud.cloudcommon.message.recharge.entity.TbTx;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author aloneMan
@@ -35,5 +36,5 @@ public interface RechargeApi {
      * @return 事务信息
      */
     @GetMapping("/get")
-    CommonResult<TbTx> getTbTx(String txId);
+    CommonResult<TbTx> getTbTx(@RequestParam("txId") String txId);
 }

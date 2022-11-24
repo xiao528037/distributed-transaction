@@ -33,7 +33,7 @@ public interface AccountMapper extends BaseMapper<TbAccount> {
      * @param accountDto 日志信息
      * @return 添加数量
      */
-    @Insert("INSERT INTO message_account.tb_tx(id, txId, username, amount) " +
+    @Insert("INSERT INTO message_account.tb_tx(txId, username, amount) " +
             "VALUES (#{transactionalId,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR},#{amount,jdbcType=DECIMAL})")
     int addTransactional(AccountDto accountDto);
 

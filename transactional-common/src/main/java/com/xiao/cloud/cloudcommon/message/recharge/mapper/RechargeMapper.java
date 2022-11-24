@@ -26,7 +26,7 @@ public interface RechargeMapper extends BaseMapper<TbRecharge> {
      * @param dto
      * @return 返回更新数量
      */
-    @Update("UPDATE message_recharge.tb_recharge SET integral = integral+#{integral,jdbcType=DECIMAL} WHERE" +
+    @Update("UPDATE message_recharge.tb_recharge SET integral = integral+#{integral,jdbcType=DECIMAL} WHERE " +
             "username = #{username,jdbcType=VARCHAR}")
     int addIntegral(RechargeDto dto);
 
@@ -38,13 +38,15 @@ public interface RechargeMapper extends BaseMapper<TbRecharge> {
      *         日志信息
      * @return 添加数量
      */
-    @Insert("INSERT INTO message_recharge.tb_tx(id, txId, username,is_success ) " +
-            "VALUES (#{transactionalId,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR},true)")
+    @Insert("INSERT INTO message_recharge.tb_tx( txId, username,is_success ) " +
+            "VALUES (#{transactionalId,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR},#{isSuccess,jdbcType=BOOLEAN})")
     int addTransactional(RechargeDto rechargeDto);
 
     /**
      * 获取事务信息
-     * @param txId 事务ID
+     *
+     * @param txId
+     *         事务ID
      * @return 事务信息
      */
     @Select("SELECT * FROM message_recharge.tb_tx WHERE txId=#{txId,jdbcType=VARCHAR}")

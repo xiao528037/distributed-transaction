@@ -31,7 +31,7 @@ public class RechargeController {
     }
 
     @GetMapping("/get")
-    public CommonResult<TbTx> getTbTx(String txId) {
+    public CommonResult<TbTx> getTbTx(@RequestParam(name = "txId") String txId) {
         TbTx txById = rechargeService.getTxById(txId);
         return new CommonResult<>(0x00001L, "查询事务信息成功", txById);
     }

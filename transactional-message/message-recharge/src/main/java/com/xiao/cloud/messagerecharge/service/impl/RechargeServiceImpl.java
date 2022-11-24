@@ -38,16 +38,16 @@ public class RechargeServiceImpl extends ServiceImpl<RechargeMapper, TbRecharge>
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void addIntegral(RechargeDto rechargeDto) {
-        int i = rechargeMapper.addIntegral(rechargeDto);
-        if (i > 0) {
-            rechargeDto.setIsSuccess(true);
+        int rechargeCount = rechargeMapper.addIntegral(rechargeDto);
+        rechargeDto.setIsSuccess(rechargeCount > 0);
+        int countTx = rechargeMapper.addTransactional(rechargeDto);
+        if (countTx > 0 && rechargeCount > 0) {
+            AccountDto accountDto = buildAccountDto(rechargeDto);
+            Message<AccountDto> message = MessageBuilder.withPayload(accountDto).build();
+            rocketMQTemplate.send("recharge_topic", message);
         } else {
-            rechargeDto.setIsSuccess(false);
+            throw new RuntimeException("增加积分失败");
         }
-        rechargeMapper.addTransactional(rechargeDto);
-        AccountDto accountDto = buildAccountDto(rechargeDto);
-        Message<AccountDto> message = MessageBuilder.withPayload(accountDto).build();
-        rocketMQTemplate.send("recharge_topic", message);
     }
 
     @Override

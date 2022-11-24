@@ -38,6 +38,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, TbAccount> im
     @Override
     public void recharge(String username, BigDecimal amount) {
         RechargeDto rechargeDto = buildRechargeDto(username, amount);
+        //增加积分
         rechargeApi.add(rechargeDto);
     }
 
@@ -46,20 +47,24 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, TbAccount> im
     public void deductionBalance(AccountDto accountDto) {
         if (accountMapper.isExist(accountDto.getTransactionalId()) > 0) {
             log.info("{} ", "此事务已经提交无需重复操作");
+            return;
         }
+        int i = 1 / 0;
         accountDto.setAmount(accountDto.getAmount().multiply(new BigDecimal(-1)));
         accountMapper.modifyBalance(accountDto);
         accountMapper.addTransactional(accountDto);
+        log.info("{} ", "最大努力消息消费成功");
     }
 
     @Override
     public TbTx getTx(String transactionalId) {
         CommonResult<TbTx> result = rechargeApi.getTbTx(transactionalId);
-        if (result.getCode().compareTo(0x00001L) == 0) {
-            if (accountMapper.isExist(transactionalId) <= 0) {
-                TbTx data = result.getData();
-
-            }
+        TbTx tbtx = null;
+        if ((tbtx = result.getData()).getIsSuccess()) {
+            AccountDto accountDto = buildAccountDto(tbtx.getUsername(), tbtx.getAmount());
+            accountMapper.modifyBalance(accountDto);
+            accountDto.setTransactionalId(tbtx.getTxid());
+            accountMapper.addTransactional(accountDto);
         }
         return result.getData();
     }
